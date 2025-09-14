@@ -21,6 +21,9 @@ public class PieceMovesCalculator {
         if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
             BishopMovesCalculator calculator = new BishopMovesCalculator(board, myPosition);
             return calculator.pieceMoves(board, myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+            KingMovesCalculator calculator = new KingMovesCalculator(board, myPosition);
+            return calculator.pieceMoves(board, myPosition);
         }
         // return an empty list
         return List.of();
