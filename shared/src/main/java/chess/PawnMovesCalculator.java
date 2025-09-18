@@ -6,8 +6,11 @@ import java.util.List;
 
 public class PawnMovesCalculator extends PieceMovesCalculator {
 
-    public PawnMovesCalculator(ChessBoard board, ChessPosition startingPosition, boolean pawnInitial) {
+    ChessGame.TeamColor pawnColor;
+
+    public PawnMovesCalculator(ChessBoard board, ChessPosition startingPosition, ChessGame.TeamColor pawnColor) {
         super(board, startingPosition);
+        this.pawnColor = pawnColor;
     }
 
     @Override
@@ -17,13 +20,29 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
         int r = startingPosition.getRow();
         int c = startingPosition.getColumn();
 
-        // move forward one square
-        validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 1, c), null));
-
-        // if initial move, can also more forward two squares
-        if (pawnInitial) {
-            validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 2, c), null));
+        // white pawns start on row 2, and are moving up (+1 or 2)
+        if (pawnColor == ChessGame.TeamColor.WHITE) {
+            if (r == 2) {
+                validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 2, c), null));
+            }
+            validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 1, c), null));
         }
+
+        // black pawns start on row 7, and are moving down (-1 or 2)
+        if (pawnColor == ChessGame.TeamColor.BLACK) {
+            if (r == 7) {
+                validMoves.add(new ChessMove(startingPosition, new ChessPosition(r - 2, c), null));
+            }
+            validMoves.add(new ChessMove(startingPosition, new ChessPosition(r - 1, c), null));
+        }
+
+//        // move forward one square
+//        validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 1, c), null));
+//
+//        // if initial move, can also more forward two squares
+//        if (pawnInitial) {
+//            validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 2, c), null));
+//        }
 
         return validMoves;
     }

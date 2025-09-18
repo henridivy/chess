@@ -40,8 +40,8 @@ public class PieceMovesCalculator {
             KnightMovesCalculator calculator = new KnightMovesCalculator(board, myPosition);
             return calculator.pieceMoves(board, myPosition);
         } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-            PawnMovesCalculator calculator = new PawnMovesCalculator(board, myPosition, pawnInitial);
-            pawnInitial = false;
+            ChessGame.TeamColor pawnColor = piece.getTeamColor();
+            PawnMovesCalculator calculator = new PawnMovesCalculator(board, myPosition, pawnColor);
             return calculator.pieceMoves(board, myPosition);
         }
         // return an empty list
