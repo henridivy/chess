@@ -13,12 +13,26 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition startingPosition) {
         List<ChessMove> validMoves = new ArrayList<>();
-        ChessPosition endingPosition = startingPosition;
+        ChessPosition endingPosition;
+        ChessPiece currentPiece = board.getPiece(startingPosition);
 
         // for up right
         int j = startingPosition.getColumn();
         for (int i = startingPosition.getRow(); i < 8 && j < 8; i++) {
             endingPosition = new ChessPosition(i+1, j+1);
+            // if there's a piece in the way...
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is in my team...
+                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                    break; // exit for loop, can't move anymore
+                // if the piece is an enemy...
+                } else {
+                    ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                    validMoves.add(newMove);
+                    break; // exit for loop after capturing
+                }
+            }
             ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
             validMoves.add(newMove);
             j++;
@@ -28,6 +42,19 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
         j = startingPosition.getColumn();
         for (int i = startingPosition.getRow(); i < 8 && j > 1; i++) {
             endingPosition = new ChessPosition(i+1, j-1);
+            // if there's a piece in the way...
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is in my team...
+                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                    break; // exit for loop, can't move anymore
+                    // if the piece is an enemy...
+                } else {
+                    ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                    validMoves.add(newMove);
+                    break; // exit for loop after capturing
+                }
+            }
             ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
             validMoves.add(newMove);
             j--;
@@ -37,6 +64,19 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
         j = startingPosition.getColumn();
         for (int i = startingPosition.getRow(); i > 1 && j < 8; i--) {
             endingPosition = new ChessPosition(i-1, j+1);
+            // if there's a piece in the way...
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is in my team...
+                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                    break; // exit for loop, can't move anymore
+                    // if the piece is an enemy...
+                } else {
+                    ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                    validMoves.add(newMove);
+                    break; // exit for loop after capturing
+                }
+            }
             ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
             validMoves.add(newMove);
             j++;
@@ -46,6 +86,19 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
         j = startingPosition.getColumn();
         for (int i = startingPosition.getRow(); i > 1 && j > 1; i--) {
             endingPosition = new ChessPosition(i-1, j-1);
+            // if there's a piece in the way...
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is in my team...
+                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                    break; // exit for loop, can't move anymore
+                    // if the piece is an enemy...
+                } else {
+                    ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                    validMoves.add(newMove);
+                    break; // exit for loop after capturing
+                }
+            }
             ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
             validMoves.add(newMove);
             j--;

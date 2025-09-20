@@ -108,6 +108,15 @@ public class ChessBoard {
         }
     }
 
+    public boolean isOccupied(ChessPosition position) {
+
+        if (getPiece(position) == null) {
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
