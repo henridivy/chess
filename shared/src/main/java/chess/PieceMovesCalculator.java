@@ -43,6 +43,9 @@ public class PieceMovesCalculator {
             ChessGame.TeamColor pawnColor = piece.getTeamColor();
             PawnMovesCalculator calculator = new PawnMovesCalculator(board, myPosition, pawnColor);
             return calculator.pieceMoves(board, myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
+            RookMovesCalculator calculator = new RookMovesCalculator(board, myPosition);
+            return calculator.pieceMoves(board, myPosition);
         }
         // return an empty list
         return List.of();

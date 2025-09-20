@@ -36,14 +36,6 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
             validMoves.add(new ChessMove(startingPosition, new ChessPosition(r - 1, c), null));
         }
 
-//        // move forward one square
-//        validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 1, c), null));
-//
-//        // if initial move, can also more forward two squares
-//        if (pawnInitial) {
-//            validMoves.add(new ChessMove(startingPosition, new ChessPosition(r + 2, c), null));
-//        }
-
         return validMoves;
     }
 }
