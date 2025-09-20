@@ -29,7 +29,7 @@ public class PieceMovesCalculator {
         // get the piece that's at the given position on the given board
         ChessPiece piece = board.getPiece(myPosition);
 
-        // if the piece is a Bishop...
+        // create an appropriate moves calculator depending on the piece type
         if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
             BishopMovesCalculator calculator = new BishopMovesCalculator(board, myPosition);
             return calculator.pieceMoves(board, myPosition);
@@ -45,6 +45,9 @@ public class PieceMovesCalculator {
             return calculator.pieceMoves(board, myPosition);
         } else if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
             RookMovesCalculator calculator = new RookMovesCalculator(board, myPosition);
+            return calculator.pieceMoves(board, myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
+            QueenMovesCalculator calculator = new QueenMovesCalculator(board, myPosition);
             return calculator.pieceMoves(board, myPosition);
         }
         // return an empty list
