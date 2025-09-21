@@ -17,23 +17,35 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
         int r = startingPosition.getRow();
         int c = startingPosition.getColumn();
 
-        // up
-        if ((r+2 <= 8) && (c-1 >= 1)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r+2, c-1), null)); }
-        if ((r+2 <= 8) && (c+1 <= 8)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r+2, c+1), null)); }
+        List<ChessPosition> endingPositions = List.of(
+                new ChessPosition(r+2, c-1),    // up
+                new ChessPosition(r+2, c+1),
+                new ChessPosition(r+1, c-2),    // left
+                new ChessPosition(r-1, c-2),
+                new ChessPosition(r-2, c-1),    // down
+                new ChessPosition(r-2, c+1),
+                new ChessPosition(r+1, c+2),    // right
+                new ChessPosition(r-1, c+2)
+        );
 
-        // left
-        if ((r+1 <= 8) && (c-2 >= 1)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r+1, c-2), null)); }
-        if ((r-1 >= 1) && (c-2 >= 1)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r-1, c-2), null)); }
-
-        // down
-        if ((r-2 >= 1) && (c-1 >= 1)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r-2, c-1), null)); }
-        if ((r-2 >= 1) && (c+1 <= 8)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r-2, c+1), null)); }
-
-        // right
-        if ((r+1 <= 8) && (c+2 <= 8)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r+1, c+2), null)); }
-        if ((r-1 >= 1) && (c+2 <= 8)) { validMoves.add(new ChessMove(startingPosition, new ChessPosition(r-1, c+2), null)); }
-
-
+        for (ChessPosition endingPosition : endingPositions) {
+            // if ending position is on the chessboard
+            if (endingPosition.inBounds()) {
+                // if there's a piece in the way...
+                if (board.isOccupied(endingPosition)) {
+                    ChessPiece nextPiece = board.getPiece(endingPosition);
+                    // if the piece is an enemy...
+                    if (nextPiece.getTeamColor() != piece.getTeamColor()) {
+                        ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                        validMoves.add(newMove);
+                    }
+                    // if there's no piece in the way...
+                } else {
+                    ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                    validMoves.add(newMove);
+                }
+            }
+        }
 
         /*
         [5,5] [i,j]

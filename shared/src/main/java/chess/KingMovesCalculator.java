@@ -48,7 +48,7 @@ public class KingMovesCalculator extends PieceMovesCalculator {
         }
 
         /*
-        [3,6] [i,j]
+        [3,6] [r,c]
         one square all around
         2,5  2,6  2,7
         3,5       3,7
