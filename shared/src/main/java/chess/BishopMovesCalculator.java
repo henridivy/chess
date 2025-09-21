@@ -14,7 +14,7 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition startingPosition) {
         List<ChessMove> validMoves = new ArrayList<>();
         ChessPosition endingPosition;
-        ChessPiece currentPiece = board.getPiece(startingPosition);
+//        ChessPiece currentPiece = board.getPiece(startingPosition);
 
         // for up right
         int j = startingPosition.getColumn();
@@ -24,7 +24,7 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
             if (board.isOccupied(endingPosition)) {
                 ChessPiece nextPiece = board.getPiece(endingPosition);
                 // if the piece is in my team...
-                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                if (nextPiece.getTeamColor() == piece.getTeamColor()) {
                     break; // exit for loop, can't move anymore
                 // if the piece is an enemy...
                 } else {
@@ -46,7 +46,7 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
             if (board.isOccupied(endingPosition)) {
                 ChessPiece nextPiece = board.getPiece(endingPosition);
                 // if the piece is in my team...
-                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                if (nextPiece.getTeamColor() == piece.getTeamColor()) {
                     break; // exit for loop, can't move anymore
                     // if the piece is an enemy...
                 } else {
@@ -68,7 +68,7 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
             if (board.isOccupied(endingPosition)) {
                 ChessPiece nextPiece = board.getPiece(endingPosition);
                 // if the piece is in my team...
-                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                if (nextPiece.getTeamColor() == piece.getTeamColor()) {
                     break; // exit for loop, can't move anymore
                     // if the piece is an enemy...
                 } else {
@@ -90,7 +90,7 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
             if (board.isOccupied(endingPosition)) {
                 ChessPiece nextPiece = board.getPiece(endingPosition);
                 // if the piece is in my team...
-                if (nextPiece.getTeamColor() == currentPiece.getTeamColor()) {
+                if (nextPiece.getTeamColor() == piece.getTeamColor()) {
                     break; // exit for loop, can't move anymore
                     // if the piece is an enemy...
                 } else {

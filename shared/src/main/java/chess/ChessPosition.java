@@ -34,6 +34,10 @@ public class ChessPosition {
         return col;
     }
 
+    public boolean inBounds() {
+        return (0 < row && row < 9) && (0 < col && col < 9);
+    }
+
     @Override
     public String toString() {
 //        return "ChessPosition{" +

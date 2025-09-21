@@ -8,26 +8,16 @@ public class PieceMovesCalculator {
     private final ChessBoard board;
     private final ChessPosition startingPosition;
     boolean pawnInitial;
+    protected ChessPiece piece;
 
     public PieceMovesCalculator(ChessBoard board, ChessPosition startingPosition) {
         this.board = board;
         this.startingPosition = startingPosition;
+        this.piece = board.getPiece(startingPosition);      // get the piece that's at the given position on the given board
         this.pawnInitial = true;
     }
-    
-//    public PieceMovesCalculator(ChessBoard board, ChessPosition startingPosition, boolean pawnInitial) {
-//        this.board = board;
-//        this.startingPosition = startingPosition;
-//        this.pawnInitial = pawnInitial;
-//    }
-//
-//    public PieceMovesCalculator(ChessBoard board, ChessPosition startingPosition) {
-//        this(board, startingPosition, true);
-//    }
 
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        // get the piece that's at the given position on the given board
-        ChessPiece piece = board.getPiece(myPosition);
 
         // create an appropriate moves calculator depending on the piece type
         if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {

@@ -110,11 +110,12 @@ public class ChessBoard {
 
     public boolean isOccupied(ChessPosition position) {
 
-        if (getPiece(position) == null) {
-            return false;
-        }
+        return getPiece(position) != null;      // cleaned up version
 
-        return true;
+//        if (getPiece(position) == null) {     // my version
+//            return false;
+//        }
+//        return true;
     }
 
     @Override
