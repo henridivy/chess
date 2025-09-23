@@ -29,7 +29,7 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
         );
 
         for (ChessPosition endingPosition : endingPositions) {
-            // if ending position is on the chessboard
+            // if ending position is on the chessboard...
             if (endingPosition.inBounds()) {
                 // if there's a piece in the way...
                 if (board.isOccupied(endingPosition)) {
