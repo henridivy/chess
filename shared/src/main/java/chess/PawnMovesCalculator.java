@@ -59,14 +59,20 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
                     }
                     // if it's an initial move...
                     if (endingPosition.getRow() == r + 2) {
-                        if (!isInitial) {
+                        if (!isInitial || board.isOccupied(new ChessPosition(r + 1, c))) {
                             isValidMove = false;
                         }
                     }
                 }
                 if (isValidMove) {
-                    ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
-                    validMoves.add(newMove);
+                    // if it's reached the opponent's back rank...
+                    if (endingPosition.getRow() == 8) {
+                        addPromotionMoves(validMoves, startingPosition, endingPosition);
+                    // if not...
+                    } else {
+                        ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                        validMoves.add(newMove);
+                    }
                 }
             }
         }
@@ -106,14 +112,20 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
                     }
                     // if it's an initial move...
                     if (endingPosition.getRow() == r - 2) {
-                        if (!isInitial) {
+                        if (!isInitial || board.isOccupied(new ChessPosition(r - 1, c))) {
                             isValidMove = false;
                         }
                     }
                 }
                 if (isValidMove) {
-                     ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
-                    validMoves.add(newMove);
+                    // if it's reached the opponent's back rank...
+                    if (endingPosition.getRow() == 1) {
+                        addPromotionMoves(validMoves, startingPosition, endingPosition);
+                    // if not...
+                    } else {
+                        ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+                        validMoves.add(newMove);
+                    }
                 }
             }
         }
@@ -121,4 +133,17 @@ public class PawnMovesCalculator extends PieceMovesCalculator {
         return validMoves;
     }
 
+    public void addPromotionMoves(List<ChessMove> validMoves, ChessPosition startingPosition, ChessPosition endingPosition) {
+        List<ChessPiece.PieceType> promotionTypes = List.of(
+                ChessPiece.PieceType.BISHOP,
+                ChessPiece.PieceType.ROOK,
+                ChessPiece.PieceType.KNIGHT,
+                ChessPiece.PieceType.QUEEN
+        );
+
+        for (ChessPiece.PieceType promotionType : promotionTypes) {
+            ChessMove newMove = new ChessMove(startingPosition, endingPosition, promotionType);
+            validMoves.add(newMove);
+        }
+    }
 }
