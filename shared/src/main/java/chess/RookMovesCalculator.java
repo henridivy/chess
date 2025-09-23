@@ -18,23 +18,59 @@ public class RookMovesCalculator extends PieceMovesCalculator {
         int c = startingPosition.getColumn();
 
         // for up
-        for (int i = startingPosition.getRow(); i < 8; i++) {
-            validMoves.add(new ChessMove(startingPosition, new ChessPosition(i+1, c), null));
+        for (int i = startingPosition.getRow() + 1; i < 9; i++) {
+            ChessPosition endingPosition = new ChessPosition(i, c);
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is an enemy...
+                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
+                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+                }
+                break;
+            }
+            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
         }
 
         // for down
-        for (int i = startingPosition.getRow(); i > 1; i--) {
-            validMoves.add(new ChessMove(startingPosition, new ChessPosition(i-1, c), null));
+        for (int i = startingPosition.getRow() - 1; i > 0; i--) {
+            ChessPosition endingPosition = new ChessPosition(i, c);
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is an enemy...
+                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
+                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+                }
+                break;
+            }
+            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
         }
 
         // for left
-        for (int j = startingPosition.getColumn(); j > 1; j--) {
-            validMoves.add(new ChessMove(startingPosition, new ChessPosition(r, j-1), null));
+        for (int j = startingPosition.getColumn() - 1; j > 0; j--) {
+            ChessPosition endingPosition = new ChessPosition(r, j);
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is an enemy...
+                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
+                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+                }
+                break;
+            }
+            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
         }
 
         // for right
-        for (int j = startingPosition.getColumn(); j < 8; j++) {
-            validMoves.add(new ChessMove(startingPosition, new ChessPosition(r, j+1), null));
+        for (int j = startingPosition.getColumn() + 1; j < 9; j++) {
+            ChessPosition endingPosition = new ChessPosition(r, j);
+            if (board.isOccupied(endingPosition)) {
+                ChessPiece nextPiece = board.getPiece(endingPosition);
+                // if the piece is an enemy...
+                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
+                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+                }
+                break;
+            }
+            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
         }
 
         /* 2,3 (r,c)
@@ -47,4 +83,15 @@ public class RookMovesCalculator extends PieceMovesCalculator {
         return validMoves;
 //        return super.pieceMoves(board, myPosition);
     }
+
+//    public void addMoves(List<ChessMove> validMoves, ChessPosition startingPosition, ChessPosition endingPosition) {
+//        if (board.isOccupied(endingPosition)) {
+//            ChessPiece nextPiece = board.getPiece(endingPosition);
+//            // if the piece is a friend...
+//            if (nextPiece.getTeamColor() == piece.getTeamColor()) {
+//                break;
+//            }
+//        }
+//        validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+//    }
 }
