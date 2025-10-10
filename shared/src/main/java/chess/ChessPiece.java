@@ -52,7 +52,7 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        PieceMovesCalculator calculator = new PieceMovesCalculator(board, myPosition);
+        MovesCalculator calculator = new MovesCalculator(board, myPosition);
         return calculator.pieceMoves(board, myPosition);
     }
 

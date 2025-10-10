@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class KnightMovesCalculator extends PieceMovesCalculator {
+public class KingMoves extends MovesCalculator {
 
-    public KnightMovesCalculator(ChessBoard board, ChessPosition startingPosition) {
+    public KingMoves(ChessBoard board, ChessPosition startingPosition) {
         super(board, startingPosition);
     }
 
@@ -18,18 +18,18 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
         int c = startingPosition.getColumn();
 
         List<ChessPosition> endingPositions = List.of(
-                new ChessPosition(r+2, c-1),    // up
-                new ChessPosition(r+2, c+1),
-                new ChessPosition(r+1, c-2),    // left
-                new ChessPosition(r-1, c-2),
-                new ChessPosition(r-2, c-1),    // down
-                new ChessPosition(r-2, c+1),
-                new ChessPosition(r+1, c+2),    // right
-                new ChessPosition(r-1, c+2)
+                new ChessPosition(r-1, c-1),        // left up
+                new ChessPosition(r, c-1),               // left middle
+                new ChessPosition(r+1, c-1),        // left down
+                new ChessPosition(r-1, c),              // middle up
+                new ChessPosition(r+1, c),              // middle down
+                new ChessPosition(r-1, c+1),        // right up
+                new ChessPosition(r, c+1),               // right middle
+                new ChessPosition(r+1, c+1)         // right down
         );
 
         for (ChessPosition endingPosition : endingPositions) {
-            // if ending position is on the chessboard...
+            // if ending position is on the chessboard
             if (endingPosition.inBounds()) {
                 // if there's a piece in the way...
                 if (board.isOccupied(endingPosition)) {
@@ -39,7 +39,7 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
                         ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
                         validMoves.add(newMove);
                     }
-                    // if there's no piece in the way...
+                // if there's no piece in the way...
                 } else {
                     ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
                     validMoves.add(newMove);
@@ -48,11 +48,11 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
         }
 
         /*
-        [5,5] [i,j]
-        7,4  7,6  up
-        6,3  4,3  left
-        3,4  3,6  down
-        6,7  4,7  right
+        [3,6] [r,c]
+        one square all around
+        2,5  2,6  2,7
+        3,5       3,7
+        4,5  4,6  4,7
          */
 
         return validMoves;

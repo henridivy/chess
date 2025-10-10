@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class RookMovesCalculator extends PieceMovesCalculator {
+public class RookMoves extends MovesCalculator {
 
-    public RookMovesCalculator(ChessBoard board, ChessPosition startingPosition) {
+    public RookMoves(ChessBoard board, ChessPosition startingPosition) {
         super(board, startingPosition);
     }
 

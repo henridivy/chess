@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PawnMovesCalculator extends PieceMovesCalculator {
+public class PawnMoves extends MovesCalculator {
 
     ChessGame.TeamColor pawnColor;
 
-    public PawnMovesCalculator(ChessBoard board, ChessPosition startingPosition, ChessGame.TeamColor pawnColor) {
+    public PawnMoves(ChessBoard board, ChessPosition startingPosition, ChessGame.TeamColor pawnColor) {
         super(board, startingPosition);
         this.pawnColor = pawnColor;
     }

@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class QueenMovesCalculator extends PieceMovesCalculator {
+public class QueenMoves extends MovesCalculator {
 
 
-    public QueenMovesCalculator(ChessBoard board, ChessPosition startingPosition) { super(board, startingPosition); }
+    public QueenMoves(ChessBoard board, ChessPosition startingPosition) { super(board, startingPosition); }
 
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition startingPosition) {
         List<ChessMove> validMoves = new ArrayList<>();
 
-        BishopMovesCalculator bish_calc = new BishopMovesCalculator(board, startingPosition);
-        RookMovesCalculator rook_calc = new RookMovesCalculator(board, startingPosition);
+        BishopMoves bish_calc = new BishopMoves(board, startingPosition);
+        RookMoves rook_calc = new RookMoves(board, startingPosition);
 
         validMoves.addAll(bish_calc.pieceMoves(board, startingPosition));
         validMoves.addAll(rook_calc.pieceMoves(board, startingPosition));
