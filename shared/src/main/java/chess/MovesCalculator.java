@@ -1,48 +1,40 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class MovesCalculator {
 
-    private final ChessBoard board;
-    private final ChessPosition startingPosition;
-    boolean pawnInitial;
-    protected ChessPiece piece;
+    private List<ChessMove> validMoves;
 
-    public MovesCalculator(ChessBoard board, ChessPosition startingPosition) {
-        this.board = board;
-        this.startingPosition = startingPosition;
-        this.piece = board.getPiece(startingPosition);      // get the piece that's at the given position on the given board
-        this.pawnInitial = true;
+    public MovesCalculator() {
+        this.validMoves = List.of();
     }
 
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+    public List<ChessMove> pieceMoves(ChessBoard board, ChessPosition startPosition, ChessPiece piece) {
 
-        // create an appropriate moves calculator depending on the piece type
         if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-            BishopMoves calculator = new BishopMoves(board, myPosition);
-            return calculator.pieceMoves(board, myPosition);
-        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-            KingMoves calculator = new KingMoves(board, myPosition);
-            return calculator.pieceMoves(board, myPosition);
-        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
-            KnightMoves calculator = new KnightMoves(board, myPosition);
-            return calculator.pieceMoves(board, myPosition);
-        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-            ChessGame.TeamColor pawnColor = piece.getTeamColor();
-            PawnMoves calculator = new PawnMoves(board, myPosition, pawnColor);
-            return calculator.pieceMoves(board, myPosition);
+            BishopMoves bishopMoves = new BishopMoves();
+            validMoves = bishopMoves.pieceMoves(board, startPosition, piece);
         } else if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
-            RookMoves calculator = new RookMoves(board, myPosition);
-            return calculator.pieceMoves(board, myPosition);
+            RookMoves rookMoves = new RookMoves();
+            validMoves = rookMoves.pieceMoves(board, startPosition, piece);
         } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
-            QueenMoves calculator = new QueenMoves(board, myPosition);
-            return calculator.pieceMoves(board, myPosition);
+            QueenMoves queenMoves = new QueenMoves();
+            validMoves = queenMoves.pieceMoves(board, startPosition, piece);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+            KingMoves kingMoves = new KingMoves();
+            validMoves = kingMoves.pieceMoves(board, startPosition, piece);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+            KnightMoves knightMoves = new KnightMoves();
+            validMoves = knightMoves.pieceMoves(board, startPosition, piece);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            PawnMoves pawnMoves = new PawnMoves();
+            validMoves = pawnMoves.pieceMoves(board, startPosition, piece);
         }
-        // return an empty list
-        return List.of();
-    }
 
+        return validMoves;
+    }
 
 }

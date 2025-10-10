@@ -1,23 +1,24 @@
 package chess;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class QueenMoves extends MovesCalculator {
+public class QueenMoves extends MovesCalculator{
 
+    private final List<ChessMove> validMoves;
 
-    public QueenMoves(ChessBoard board, ChessPosition startingPosition) { super(board, startingPosition); }
+    public QueenMoves() {
+        this.validMoves = new ArrayList<>();
+    }
 
     @Override
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition startingPosition) {
-        List<ChessMove> validMoves = new ArrayList<>();
+    public List<ChessMove> pieceMoves(ChessBoard board, ChessPosition startPosition, ChessPiece piece) {
 
-        BishopMoves bish_calc = new BishopMoves(board, startingPosition);
-        RookMoves rook_calc = new RookMoves(board, startingPosition);
+        RookMoves rookMoves = new RookMoves();
+        BishopMoves bishopMoves = new BishopMoves();
 
-        validMoves.addAll(bish_calc.pieceMoves(board, startingPosition));
-        validMoves.addAll(rook_calc.pieceMoves(board, startingPosition));
+        validMoves.addAll(rookMoves.pieceMoves(board, startPosition, piece));
+        validMoves.addAll(bishopMoves.pieceMoves(board, startPosition, piece));
 
         return validMoves;
     }

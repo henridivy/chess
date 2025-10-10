@@ -1,148 +1,157 @@
 package chess;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class PawnMoves extends MovesCalculator {
+public class PawnMoves extends MovesCalculator{
 
-    ChessGame.TeamColor pawnColor;
+    private final List<ChessMove> validMoves;
 
-    public PawnMoves(ChessBoard board, ChessPosition startingPosition, ChessGame.TeamColor pawnColor) {
-        super(board, startingPosition);
-        this.pawnColor = pawnColor;
+    public PawnMoves() {
+        this.validMoves = new ArrayList<>();
     }
 
     @Override
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition startingPosition) {
-        List<ChessMove> validMoves = new ArrayList<>();
+    public List<ChessMove> pieceMoves(ChessBoard board, ChessPosition startPosition, ChessPiece piece) {
 
-        int r = startingPosition.getRow();
-        int c = startingPosition.getColumn();
+        int r = startPosition.getRow();
+        int c = startPosition.getColumn();
 
-        List<ChessPosition> endingPositions;
+        ChessPosition endPosition;
+        ChessMove newMove;
 
-        // white pawns start on row 2, and are moving up (+1 or 2)
-        if (pawnColor == ChessGame.TeamColor.WHITE) {
+        ChessPosition[] possibleEnds = {
+                // black
+                new ChessPosition(r - 1, c),          // down one
+                new ChessPosition(r - 2, c),          // down two
+                new ChessPosition(r - 1, c - 1),    // capture left
+                new ChessPosition(r - 1, c + 1),     // capture right
 
-            boolean isInitial = (r == 2);      // if this will be pawn's first move, initial is true, else it's false
+                // WHITE
+                new ChessPosition(r + 1, c),          // up one
+                new ChessPosition(r + 2, c),          // up two
+                new ChessPosition(r + 1, c - 1),    // capture left
+                new ChessPosition(r + 1, c + 1)    // capture right
+        };
 
-            endingPositions = List.of(
-                    new ChessPosition(r + 1, c - 1),    // left (capture)
-                    new ChessPosition(r + 1, c + 1),    // right (capture)
-                    new ChessPosition(r + 1, c),             // up
-                    new ChessPosition(r + 2, c)             // up up
-            );
+        // ------black pawns------
+        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
 
-//           boolean isValidMove = evaluateValidMove(endingPositions);
-
-            for (ChessPosition endingPosition : endingPositions) {
-                boolean isValidMove = false;
-                // if it's in bounds...
-                if (endingPosition.inBounds()) {
-                    // if it's moving straight up...
-                    if (endingPosition.getColumn() == c) {
-                        // if there's no piece in the way...
-                        if (!board.isOccupied(endingPosition)) {
-                            isValidMove = true;
-                        }
-                        // if it's moving diagonally...
-                    } else {
-                        // if there's a piece in the way...
-                        if (board.isOccupied(endingPosition)) {
-                            ChessPiece nextPiece = board.getPiece(endingPosition);
-                            // if the piece is an enemy...
-                            if (nextPiece.getTeamColor() != piece.getTeamColor()) {
-                                isValidMove = true;
-                            }
-                        }
+            // forward one - can move only if empty
+            endPosition = possibleEnds[0];
+            if (board.inBounds(endPosition)) {
+                if (board.isEmpty(endPosition)) {
+                    if (endPosition.getRow() == 1) { // if black has reached white's ranks
+                        addPromotionPieces(startPosition, endPosition);
+                    } else {    // not being promoted
+                        newMove = new ChessMove(startPosition, endPosition, null);
+                        validMoves.add(newMove);
                     }
-                    // if it's an initial move...
-                    if (endingPosition.getRow() == r + 2) {
-                        if (!isInitial || board.isOccupied(new ChessPosition(r + 1, c))) {
-                            isValidMove = false;
+
+                    // forward two - initial
+                    if (r == 7) { // starts on 7th row
+                        endPosition = possibleEnds[1];
+                        if (board.isEmpty(endPosition)) {
+                            newMove = new ChessMove(startPosition, endPosition, null);
+                            validMoves.add(newMove);
                         }
                     }
                 }
-                if (isValidMove) {
-                    // if it's reached the opponent's back rank...
-                    if (endingPosition.getRow() == 8) {
-                        addPromotionMoves(validMoves, startingPosition, endingPosition);
-                    // if not...
-                    } else {
-                        ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
+            }
+
+            // capture left
+            endPosition = possibleEnds[2];
+            if (board.inBounds(endPosition)) {
+                if (board.isValidSpot(piece, endPosition) && !board.isEmpty(endPosition)) {  // valid not empty spot = enemy
+                    if (endPosition.getRow() == 1) { // if black has reached white's ranks
+                        addPromotionPieces(startPosition, endPosition);
+                    } else {    // not being promoted
+                        newMove = new ChessMove(startPosition, endPosition, null);
+                        validMoves.add(newMove);
+                    }
+                }
+            }
+
+            // capture right
+            endPosition = possibleEnds[3];
+            if (board.inBounds(endPosition)) {
+                if (board.isValidSpot(piece, endPosition) && !board.isEmpty(endPosition)) {  // valid not empty spot = enemy
+                    if (endPosition.getRow() == 1) { // if black has reached white's ranks
+                        addPromotionPieces(startPosition, endPosition);
+                    } else {    // not being promoted
+                        newMove = new ChessMove(startPosition, endPosition, null);
+                        validMoves.add(newMove);
+                    }
+                }
+            }
+        }
+        // -------WHITE PAWNS------
+
+        else if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+
+            // forward one - can move only if empty
+            endPosition = possibleEnds[4];
+            if (board.inBounds(endPosition)) {
+                if (board.isEmpty(endPosition)) {
+                    if (endPosition.getRow() == 8) { // if white has reached black's ranks
+                        addPromotionPieces(startPosition, endPosition);
+                    } else {    // not being promoted
+                        newMove = new ChessMove(startPosition, endPosition, null);
+                        validMoves.add(newMove);
+                    }
+
+                    // forward two - initial
+                    if (r == 2) { // starts on 2nd row
+                        endPosition = possibleEnds[5];
+                        if (board.isEmpty(endPosition)) {
+                            newMove = new ChessMove(startPosition, endPosition, null);
+                            validMoves.add(newMove);
+                        }
+                    }
+                }
+            }
+
+            // capture left
+            endPosition = possibleEnds[6];
+            if (board.inBounds(endPosition)) {
+                if (board.isValidSpot(piece, endPosition) && !board.isEmpty(endPosition)) {  // valid not empty spot = enemy
+                    if (endPosition.getRow() == 8) { // if white has reached black's ranks
+                        addPromotionPieces(startPosition, endPosition);
+                    } else {    // not being promoted
+                        newMove = new ChessMove(startPosition, endPosition, null);
+                        validMoves.add(newMove);
+                    }
+                }
+            }
+
+            // capture right
+            endPosition = possibleEnds[7];
+            if (board.inBounds(endPosition)) {
+                if (board.isValidSpot(piece, endPosition) && !board.isEmpty(endPosition)) {  // valid not empty spot = enemy
+                    if (endPosition.getRow() == 8) { // if white has reached black's ranks
+                        addPromotionPieces(startPosition, endPosition);
+                    } else {    // not being promoted
+                        newMove = new ChessMove(startPosition, endPosition, null);
                         validMoves.add(newMove);
                     }
                 }
             }
         }
 
-        // black pawns start on row 7, and are moving down (-1 or 2)
-        if (pawnColor == ChessGame.TeamColor.BLACK) {
-
-            boolean isInitial = (r == 7);      // if this will be pawn's first move, initial is true, else it's false
-
-            endingPositions = List.of(
-                    new ChessPosition(r - 1, c - 1),    // left (capture)
-                    new ChessPosition(r - 1, c + 1),    // right (capture)
-                    new ChessPosition(r - 1, c),             // down
-                    new ChessPosition(r - 2, c)             // down down
-            );
-
-            for (ChessPosition endingPosition : endingPositions) {
-                boolean isValidMove = false;
-                // if it's in bounds...
-                if (endingPosition.inBounds()) {
-                    // if it's moving straight up...
-                    if (endingPosition.getColumn() == c) {
-                        // if there's no piece in the way...
-                        if (!board.isOccupied(endingPosition)) {
-                            isValidMove = true;
-                        }
-                    // if it's moving diagonally...
-                    } else {
-                        // if there's a piece in the way...
-                        if (board.isOccupied(endingPosition)) {
-                            ChessPiece nextPiece = board.getPiece(endingPosition);
-                            // if the piece is an enemy...
-                            if (nextPiece.getTeamColor() != piece.getTeamColor()) {
-                                isValidMove = true;
-                            }
-                        }
-                    }
-                    // if it's an initial move...
-                    if (endingPosition.getRow() == r - 2) {
-                        if (!isInitial || board.isOccupied(new ChessPosition(r - 1, c))) {
-                            isValidMove = false;
-                        }
-                    }
-                }
-                if (isValidMove) {
-                    // if it's reached the opponent's back rank...
-                    if (endingPosition.getRow() == 1) {
-                        addPromotionMoves(validMoves, startingPosition, endingPosition);
-                    // if not...
-                    } else {
-                        ChessMove newMove = new ChessMove(startingPosition, endingPosition, null);
-                        validMoves.add(newMove);
-                    }
-                }
-            }
-        }
 
         return validMoves;
     }
 
-    public void addPromotionMoves(List<ChessMove> validMoves, ChessPosition startingPosition, ChessPosition endingPosition) {
-        List<ChessPiece.PieceType> promotionTypes = List.of(
-                ChessPiece.PieceType.BISHOP,
+    public void addPromotionPieces(ChessPosition startPosition, ChessPosition endPosition) {
+        ChessPiece.PieceType[] promotionTypes = {
                 ChessPiece.PieceType.ROOK,
                 ChessPiece.PieceType.KNIGHT,
+                ChessPiece.PieceType.BISHOP,
                 ChessPiece.PieceType.QUEEN
-        );
+        };
 
-        for (ChessPiece.PieceType promotionType : promotionTypes) {
-            ChessMove newMove = new ChessMove(startingPosition, endingPosition, promotionType);
+        for (var type : promotionTypes) {
+            ChessMove newMove = new ChessMove(startPosition, endPosition, type);
             validMoves.add(newMove);
         }
     }

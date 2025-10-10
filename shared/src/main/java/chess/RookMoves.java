@@ -1,97 +1,73 @@
 package chess;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class RookMoves extends MovesCalculator {
+public class RookMoves extends MovesCalculator{
 
-    public RookMoves(ChessBoard board, ChessPosition startingPosition) {
-        super(board, startingPosition);
+    private final List<ChessMove> validMoves;
+
+    public RookMoves() {
+        this.validMoves = new ArrayList<>();
     }
 
     @Override
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition startingPosition) {
-        List<ChessMove> validMoves = new ArrayList<>();
+    public List<ChessMove> pieceMoves(ChessBoard board, ChessPosition startPosition, ChessPiece piece) {
 
-        int r = startingPosition.getRow();
-        int c = startingPosition.getColumn();
+        int r = startPosition.getRow();
+        int c = startPosition.getColumn();
 
-        // for up
-        for (int i = startingPosition.getRow() + 1; i < 9; i++) {
-            ChessPosition endingPosition = new ChessPosition(i, c);
-            if (board.isOccupied(endingPosition)) {
-                ChessPiece nextPiece = board.getPiece(endingPosition);
-                // if the piece is an enemy...
-                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
-                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
-                }
-                break;
+        ChessPosition endPosition;
+        ChessMove newMove;
+
+        // up
+        for (int i = r + 1; i < 9; i++) {
+            endPosition = new ChessPosition(i, c);
+            if (board.isValidSpot(piece, endPosition)) {
+                newMove = new ChessMove(startPosition, endPosition, null);
+                validMoves.add(newMove);
             }
-            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+            if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
+                break; // has to be in bounds AND empty to keep going further
+            }
         }
 
-        // for down
-        for (int i = startingPosition.getRow() - 1; i > 0; i--) {
-            ChessPosition endingPosition = new ChessPosition(i, c);
-            if (board.isOccupied(endingPosition)) {
-                ChessPiece nextPiece = board.getPiece(endingPosition);
-                // if the piece is an enemy...
-                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
-                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
-                }
-                break;
+        // right
+        for (int j = c + 1; j < 9; j++) {
+            endPosition = new ChessPosition(r, j);
+            if (board.isValidSpot(piece, endPosition)) {
+                newMove = new ChessMove(startPosition, endPosition, null);
+                validMoves.add(newMove);
             }
-            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+            if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
+                break; // has to be in bounds AND empty to keep going further
+            }
         }
 
-        // for left
-        for (int j = startingPosition.getColumn() - 1; j > 0; j--) {
-            ChessPosition endingPosition = new ChessPosition(r, j);
-            if (board.isOccupied(endingPosition)) {
-                ChessPiece nextPiece = board.getPiece(endingPosition);
-                // if the piece is an enemy...
-                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
-                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
-                }
-                break;
+        // down
+        for (int i = r - 1; i > 0; i--) {
+            endPosition = new ChessPosition(i, c);
+            if (board.isValidSpot(piece, endPosition)) {
+                newMove = new ChessMove(startPosition, endPosition, null);
+                validMoves.add(newMove);
             }
-            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+            if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
+                break; // has to be in bounds AND empty to keep going further
+            }
         }
 
-        // for right
-        for (int j = startingPosition.getColumn() + 1; j < 9; j++) {
-            ChessPosition endingPosition = new ChessPosition(r, j);
-            if (board.isOccupied(endingPosition)) {
-                ChessPiece nextPiece = board.getPiece(endingPosition);
-                // if the piece is an enemy...
-                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
-                    validMoves.add(new ChessMove(startingPosition, endingPosition, null));
-                }
-                break;
+        // left
+        for (int j = c - 1; j > 0; j--) {
+            endPosition = new ChessPosition(r, j);
+            if (board.isValidSpot(piece, endPosition)) {
+                newMove = new ChessMove(startPosition, endPosition, null);
+                validMoves.add(newMove);
             }
-            validMoves.add(new ChessMove(startingPosition, endingPosition, null));
+            if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
+                break; // has to be in bounds AND empty to keep going further
+            }
         }
-
-        /* 2,3 (r,c)
-        up - 3,3  4,3  5,3  6,3  7,3  8,3
-        left - 2,2  2,1
-        down - 1,3
-        right - 2,4  2,5  2,6  2,7  2,8
-         */
 
         return validMoves;
-//        return super.pieceMoves(board, myPosition);
     }
-
-//    public void addMoves(List<ChessMove> validMoves, ChessPosition startingPosition, ChessPosition endingPosition) {
-//        if (board.isOccupied(endingPosition)) {
-//            ChessPiece nextPiece = board.getPiece(endingPosition);
-//            // if the piece is a friend...
-//            if (nextPiece.getTeamColor() == piece.getTeamColor()) {
-//                break;
-//            }
-//        }
-//        validMoves.add(new ChessMove(startingPosition, endingPosition, null));
-//    }
 }

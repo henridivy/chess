@@ -34,8 +34,17 @@ public class ChessPosition {
         return col;
     }
 
-    public boolean inBounds() {
-        return (0 < row && row < 9) && (0 < col && col < 9);
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ChessPosition that)) {
+            return false;
+        }
+        return row == that.row && col == that.col;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
     }
 
     @Override
@@ -44,21 +53,7 @@ public class ChessPosition {
 //                "row=" + row +
 //                ", col=" + col +
 //                '}';
-        // string example of position: [3,5]
-        return String.format("[%d,%d]", row, col);
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ChessPosition that = (ChessPosition) o;
-        return row == that.row && col == that.col;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, col);
+        return "[" + row + "," + col + "]";
     }
 }

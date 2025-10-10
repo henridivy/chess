@@ -1,6 +1,7 @@
 package chess;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A chessboard that can hold and rearrange chess pieces.
@@ -10,10 +11,11 @@ import java.util.*;
  */
 public class ChessBoard {
 
-    // create a double array of chess pieces, with 8 rows and 8 columns
     private final ChessPiece[][] board = new ChessPiece[8][8];
 
-    public ChessBoard() { }
+    public ChessBoard() {
+
+    }
 
     /**
      * Adds a chess piece to the chessboard
@@ -22,11 +24,7 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        // assign the given piece to the given position; "this position should hold this piece"
-        // remember that the given position is 1-based, so we have to subtract 1 to get the index to access
         board[position.getRow() - 1][position.getColumn() - 1] = piece;
-
-        // my note: remember that board is a double array of ChessPieces
     }
 
     /**
@@ -37,20 +35,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        // access the piece at the given position and return it
         return board[position.getRow() - 1][position.getColumn() - 1];
-    }
-
-    public void removePiece(ChessPosition position) {
-        board[position.getRow() - 1][position.getColumn() - 1] = null;
-    }
-
-    public void removeAllPieces() {
-        for (int r = 0; r < 8; r++) {
-            for (int c = 0; c < 8; c++) {
-                board[r][c] = null;
-            }
-        }
     }
 
     /**
@@ -60,34 +45,32 @@ public class ChessBoard {
     public void resetBoard() {
 
         removeAllPieces();
+        int r;
 
-        // add non-pawn white pieces (row 1)
-        setOtherPieces(1, ChessGame.TeamColor.WHITE);
-
-        // add white pawns
-        for (int c = 1; c <= 8; c++) {
-            ChessPosition piecePosition = new ChessPosition(2, c);
-            ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
-            addPiece(piecePosition, piece);
+        // set black pawns
+        r = 7;
+        for (int c = 1; c < 9; c++ ) {
+            ChessPosition newPosition = new ChessPosition(r, c);
+            ChessPiece newPiece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
+            addPiece(newPosition, newPiece);
         }
 
-        // add black pawns
-        for (int c = 1; c <= 8; c++) {
-            ChessPosition piecePosition = new ChessPosition(7, c);
-            ChessPiece piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
-            addPiece(piecePosition, piece);
+        // set black pawns
+        r = 2;
+        for (int c = 1; c < 9; c++ ) {
+            ChessPosition newPosition = new ChessPosition(r, c);
+            ChessPiece newPiece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
+            addPiece(newPosition, newPiece);
         }
 
-        // add non-pawn black pieces (row 8)
-        setOtherPieces(8, ChessGame.TeamColor.BLACK);
-
+        // set other pieces
+        setOtherPieces();
     }
 
-    private void setOtherPieces(int r, ChessGame.TeamColor color) {
+    // my methods
 
-        int c = 1;
-
-        List<ChessPiece.PieceType> typesInOrder = List.of(
+    public void setOtherPieces() {
+        ChessPiece.PieceType[] nonPawnTypes = {
                 ChessPiece.PieceType.ROOK,
                 ChessPiece.PieceType.KNIGHT,
                 ChessPiece.PieceType.BISHOP,
@@ -96,39 +79,94 @@ public class ChessBoard {
                 ChessPiece.PieceType.BISHOP,
                 ChessPiece.PieceType.KNIGHT,
                 ChessPiece.PieceType.ROOK
-        );
+        };
 
-        for (ChessPiece.PieceType pieceType : typesInOrder) {      // for each of the chess piece types in order...
-        if (pieceType != ChessPiece.PieceType.PAWN) {                           // if it's not a pawn...
-            ChessPosition piecePosition = new ChessPosition(r, c);              // make a chess position with the given row and a column starting from 1
-            ChessPiece piece = new ChessPiece(color, pieceType);                // make a chess piece with the given color and the current piece type
-            addPiece(piecePosition, piece);                                     // add a piece with those details
-            c++;                                                                // go to next column
+        int r;
+
+        // set black pieces
+        r = 8;
+        for (int c = 1; c < 9; c++ ) {
+            ChessPosition newPosition = new ChessPosition(r, c);
+            ChessPiece newPiece = new ChessPiece(ChessGame.TeamColor.BLACK, nonPawnTypes[c-1]);
+            addPiece(newPosition, newPiece);
+        }
+
+        // set white pieces
+        r = 1;
+        for (int c = 1; c < 9; c++ ) {
+            ChessPosition newPosition = new ChessPosition(r, c);
+            ChessPiece newPiece = new ChessPiece(ChessGame.TeamColor.WHITE, nonPawnTypes[c-1]);
+            addPiece(newPosition, newPiece);
+        }
+    }
+
+    public void removeAllPieces() {
+        for (int r = 1; r < 9; r++) {
+            for (int c = 1; c < 9; c++) {
+                removePiece(new ChessPosition(r, c));
             }
         }
     }
 
-    public boolean isOccupied(ChessPosition position) {
-
-        return getPiece(position) != null;      // cleaned up version
-
-//        if (getPiece(position) == null) {     // my version
-//            return false;
-//        }
-//        return true;
+    public void removePiece(ChessPosition position) {
+        board[position.getRow() - 1][position.getColumn() - 1] = null;
     }
+
+    public boolean inBounds(ChessPosition position) {
+        int r = position.getRow();
+        int c = position.getColumn();
+
+        return (0 < r && r < 9) && (0 < c && c < 9);
+    }
+
+    public boolean isEmpty(ChessPosition position) {
+        return getPiece(position) == null;
+    }
+
+    public boolean isValidSpot(ChessPiece piece, ChessPosition endPosition) {
+        if (inBounds(endPosition)) {
+            if (isEmpty(endPosition)) {
+                return true; // true if it's an empty spot
+            } else {
+                ChessPiece nextPiece = getPiece(endPosition);
+                if (nextPiece.getTeamColor() != piece.getTeamColor()) {
+                    return true; // true if there's an enemy there
+                }
+            }
+        }
+        return false; // return false if not in bounds or doesn't fit other conditions
+    }
+
+//    public boolean isValidSpot(ChessPosition position) {
+//        if (!inBounds(position)) {
+//            return false;
+//        } else if (!isEmpty(position)) {
+//            ChessPiece myPiece = getPiece(position);
+//            ChessPiece nextPiece = getPiece(position);
+//            if (nextPiece.getTeamColor() != myPiece.getTeamColor()) {
+//                return true; // true if there's an enemy there
+//            }
+//        }
+//        return true; // return false if not in bounds or doesn't fit other conditions
+//    }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ChessBoard that)) {
             return false;
         }
-        ChessBoard that = (ChessBoard) o;
         return Objects.deepEquals(board, that.board);
     }
 
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(board);
+    }
+
+    @Override
+    public String toString() {
+        return "ChessBoard{" +
+                "board=" + Arrays.toString(board) +
+                '}';
     }
 }

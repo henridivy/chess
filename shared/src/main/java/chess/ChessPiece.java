@@ -1,6 +1,9 @@
 package chess;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -12,10 +15,12 @@ public class ChessPiece {
 
     private final ChessGame.TeamColor pieceColor;
     private final PieceType type;
+    private List<ChessMove> validMoves;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
         this.type = type;
+        this.validMoves = List.of();
     }
 
     /**
@@ -52,21 +57,35 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        MovesCalculator calculator = new MovesCalculator(board, myPosition);
-        return calculator.pieceMoves(board, myPosition);
+
+//        ChessPiece myPiece = new ChessPiece(this.pieceColor, this.type);
+        ChessPiece myPiece = board.getPiece(myPosition);
+
+        MovesCalculator AllMoves = new MovesCalculator();
+        validMoves = AllMoves.pieceMoves(board, myPosition, myPiece);
+
+        return validMoves;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ChessPiece that)) {
             return false;
         }
-        ChessPiece that = (ChessPiece) o;
-        return pieceColor == that.pieceColor && type == that.type;
+        return pieceColor == that.pieceColor && type == that.type && Objects.equals(validMoves, that.validMoves);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pieceColor, type);
+        return Objects.hash(pieceColor, type, validMoves);
+    }
+
+    @Override
+    public String toString() {
+        return "ChessPiece{" +
+                "pieceColor=" + pieceColor +
+                ", type=" + type +
+                ", validMoves=" + validMoves +
+                '}';
     }
 }
