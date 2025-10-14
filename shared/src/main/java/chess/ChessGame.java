@@ -80,9 +80,24 @@ public class ChessGame {
         ChessPosition endPosition = move.getEndPosition();
 
         ChessPiece piece = board.getPiece(startPosition);
+        if (piece == null) { throw new InvalidMoveException("No piece in starting position."); }
+
+        ChessBoard backupBoard = board;
 
         board.removePiece(startPosition);
         board.addPiece(endPosition, piece);
+
+//        if (isInCheck(piece.getTeamColor())) {
+//            board = backupBoard;
+//            throw new InvalidMoveException("King in check!");
+//        }
+
+        System.out.println("Before isInCheck:");
+        System.out.println(board);
+        boolean check = isInCheck(piece.getTeamColor());
+        System.out.println("After isInCheck:");
+        System.out.println(board);
+
     }
 
     /**
@@ -109,7 +124,7 @@ public class ChessGame {
         // see if king's square is being attacked
         for (ChessMove move : attackPositions) {
             ChessPosition endPosition = move.getEndPosition();
-            if (kingPosition == endPosition) {
+            if (kingPosition.equals(endPosition)) {
                 return true;
             }
         }

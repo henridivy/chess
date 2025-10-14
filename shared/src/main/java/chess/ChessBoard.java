@@ -165,8 +165,27 @@ public class ChessBoard {
 
     @Override
     public String toString() {
-        return "ChessBoard{" +
-                "board=" + Arrays.toString(board) +
-                '}';
+//        return "ChessBoard{" +
+//                "board=" + Arrays.toString(board) +
+//                '}';
+        String stringBoard = new String();
+        stringBoard += System.lineSeparator();
+
+        for (int r = 8; r > 0; r--) {
+            stringBoard += "|";
+            for (int c = 1; c < 9; c++) {
+                ChessPiece piece = getPiece(new ChessPosition(r, c));
+                if (piece == null) {
+                    stringBoard += " ";
+                } else {
+                    stringBoard += piece.stringRepresentationForBoard();
+                }
+                stringBoard += "|";
+            }
+//            stringBoard += "\\n";
+            stringBoard += System.lineSeparator();
+        }
+
+        return stringBoard;
     }
 }

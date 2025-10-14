@@ -82,10 +82,38 @@ public class ChessPiece {
 
     @Override
     public String toString() {
-        return "ChessPiece{" +
-                "pieceColor=" + pieceColor +
-                ", type=" + type +
-                ", validMoves=" + validMoves +
-                '}';
+//        return "ChessPiece{" +
+//                "pieceColor=" + pieceColor +
+//                ", type=" + type +
+//                ", validMoves=" + validMoves +
+//                '}';
+
+        return pieceColor.toString() + " " + type.toString();
+    }
+
+    // MY ADDED METHODS
+
+    public String stringRepresentationForBoard() {
+        String repr = new String();
+
+        if (type == PieceType.ROOK) {
+            repr = "r";
+        } else if (type == PieceType.KNIGHT) {
+            repr = "n";
+        } else if (type == PieceType.BISHOP) {
+            repr = "b";
+        } else if (type == PieceType.QUEEN) {
+            repr = "q";
+        } else if (type == PieceType.KING) {
+            repr = "k";
+        } else if (type == PieceType.PAWN) {
+            repr = "p";
+        }
+
+        if (pieceColor == ChessGame.TeamColor.BLACK) {
+            return repr;
+        } else {
+            return repr.toUpperCase();
+        }
     }
 }
