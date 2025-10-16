@@ -115,8 +115,15 @@ public class ChessGame {
 
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
+        ChessPiece.PieceType promotionType = move.getPromotionPiece();
+        ChessPiece piece;
 
-        ChessPiece piece = board.getPiece(startPosition);
+        if (promotionType == null) {
+            piece = board.getPiece(startPosition);
+        } else {
+            ChessPiece oldPiece = board.getPiece(startPosition);
+            piece = new ChessPiece(oldPiece.getTeamColor(), promotionType);
+        }
 
         board.removePiece(startPosition);
         board.addPiece(endPosition, piece);
