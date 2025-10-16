@@ -52,7 +52,7 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-    public Collection<ChessMove> validMoves(ChessPosition startPosition) throws InvalidMoveException {
+    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         // create a test board that will test each possible move
         ChessBoard testBoard = board.copyBoard();
 
@@ -86,20 +86,37 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-//        try {
-            makeMoveHelper(board, move);
-//        } catch (InvalidMoveException ex) {
-//            System.out.println("No piece in position.");
-//        }
+
+        ChessPosition startPosition = move.getStartPosition();
+
+        ChessPiece piece = board.getPiece(startPosition);
+
+        if (piece == null) { throw new InvalidMoveException("No piece at starting position."); }
+
+        if (piece.getTeamColor() != teamTurn) { throw new InvalidMoveException("Not your turn."); }
+
+        // get legal moves
+        Collection<ChessMove> validMoves = validMoves(startPosition);
+
+        if (!validMoves.contains(move)) { throw new InvalidMoveException("Invalid move."); }
+
+        // perform the actual move on the board
+        makeMoveHelper(board, move);
+
+        // switch team's turn
+        if (getTeamTurn() == TeamColor.WHITE) {
+            setTeamTurn(TeamColor.BLACK);
+        } else {
+            setTeamTurn(TeamColor.WHITE);
+        }
     }
 
-    public void makeMoveHelper(ChessBoard board, ChessMove move) throws InvalidMoveException {
+    public void makeMoveHelper(ChessBoard board, ChessMove move) {
 
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
 
         ChessPiece piece = board.getPiece(startPosition);
-        if (piece == null) { throw new InvalidMoveException(); }
 
         board.removePiece(startPosition);
         board.addPiece(endPosition, piece);
