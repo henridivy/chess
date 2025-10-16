@@ -137,18 +137,29 @@ public class ChessBoard {
         return false; // return false if not in bounds or doesn't fit other conditions
     }
 
-//    public boolean isValidSpot(ChessPosition position) {
-//        if (!inBounds(position)) {
-//            return false;
-//        } else if (!isEmpty(position)) {
-//            ChessPiece myPiece = getPiece(position);
-//            ChessPiece nextPiece = getPiece(position);
-//            if (nextPiece.getTeamColor() != myPiece.getTeamColor()) {
-//                return true; // true if there's an enemy there
-//            }
-//        }
-//        return true; // return false if not in bounds or doesn't fit other conditions
-//    }
+    public ChessBoard copyBoard() {
+        ChessBoard newBoard = new ChessBoard();
+
+        for (int r = 1; r < 9; r++) {
+            for (int c = 1; c < 9; c++) {
+                // create a new position at current indexes
+                ChessPosition currentPosition = new ChessPosition(r, c);
+
+                // get the piece at that position on board
+                ChessPiece piece = getPiece(currentPosition);
+
+                if (piece != null) {
+                    // create a new piece of the same color and type
+                    ChessPiece newPiece = new ChessPiece(piece.getTeamColor(), piece.getPieceType());
+
+                    // add the new piece to the new board
+                    newBoard.addPiece(currentPosition, newPiece);
+                }
+            }
+        }
+
+        return newBoard;
+    }
 
     @Override
     public boolean equals(Object o) {

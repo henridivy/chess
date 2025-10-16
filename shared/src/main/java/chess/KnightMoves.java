@@ -5,10 +5,10 @@ import java.util.List;
 
 public class KnightMoves extends MovesCalculator{
 
-    private final List<ChessMove> validMoves;
+    private final List<ChessMove> possibleMoves;
 
     public KnightMoves() {
-        this.validMoves = new ArrayList<>();
+        this.possibleMoves = new ArrayList<>();
     }
 
     @Override
@@ -35,10 +35,10 @@ public class KnightMoves extends MovesCalculator{
             endPosition = end;
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
             }
         }
 
-        return validMoves;
+        return possibleMoves;
     }
 }

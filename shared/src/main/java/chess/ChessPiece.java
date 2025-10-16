@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -15,12 +14,12 @@ public class ChessPiece {
 
     private final ChessGame.TeamColor pieceColor;
     private final PieceType type;
-    private List<ChessMove> validMoves;
+    private List<ChessMove> possibleMoves;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
         this.type = type;
-        this.validMoves = List.of();
+        this.possibleMoves = List.of();
     }
 
     /**
@@ -58,13 +57,12 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
 
-//        ChessPiece myPiece = new ChessPiece(this.pieceColor, this.type);
         ChessPiece myPiece = board.getPiece(myPosition);
 
         MovesCalculator AllMoves = new MovesCalculator();
-        validMoves = AllMoves.pieceMoves(board, myPosition, myPiece);
+        possibleMoves = AllMoves.pieceMoves(board, myPosition, myPiece);
 
-        return validMoves;
+        return possibleMoves;
     }
 
     @Override
@@ -72,12 +70,12 @@ public class ChessPiece {
         if (!(o instanceof ChessPiece that)) {
             return false;
         }
-        return pieceColor == that.pieceColor && type == that.type && Objects.equals(validMoves, that.validMoves);
+        return pieceColor == that.pieceColor && type == that.type && Objects.equals(possibleMoves, that.possibleMoves);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pieceColor, type, validMoves);
+        return Objects.hash(pieceColor, type, possibleMoves);
     }
 
     @Override

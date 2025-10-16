@@ -5,10 +5,10 @@ import java.util.List;
 
 public class BishopMoves extends MovesCalculator{
 
-    private final List<ChessMove> validMoves;
+    private final List<ChessMove> possibleMoves;
 
     public BishopMoves() {
-        this.validMoves = new ArrayList<>();
+        this.possibleMoves = new ArrayList<>();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class BishopMoves extends MovesCalculator{
             endPosition = new ChessPosition(i, j);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
                 j++;
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
@@ -41,7 +41,7 @@ public class BishopMoves extends MovesCalculator{
             endPosition = new ChessPosition(i, j);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
                 j++;
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
@@ -55,7 +55,7 @@ public class BishopMoves extends MovesCalculator{
             endPosition = new ChessPosition(i, j);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
                 j--;
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
@@ -69,7 +69,7 @@ public class BishopMoves extends MovesCalculator{
             endPosition = new ChessPosition(i, j);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
                 j--;
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
@@ -77,6 +77,6 @@ public class BishopMoves extends MovesCalculator{
             }
         }
 
-        return validMoves;
+        return possibleMoves;
     }
 }

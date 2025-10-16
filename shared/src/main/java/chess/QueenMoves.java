@@ -5,10 +5,10 @@ import java.util.List;
 
 public class QueenMoves extends MovesCalculator{
 
-    private final List<ChessMove> validMoves;
+    private final List<ChessMove> possibleMoves;
 
     public QueenMoves() {
-        this.validMoves = new ArrayList<>();
+        this.possibleMoves = new ArrayList<>();
     }
 
     @Override
@@ -17,9 +17,9 @@ public class QueenMoves extends MovesCalculator{
         RookMoves rookMoves = new RookMoves();
         BishopMoves bishopMoves = new BishopMoves();
 
-        validMoves.addAll(rookMoves.pieceMoves(board, startPosition, piece));
-        validMoves.addAll(bishopMoves.pieceMoves(board, startPosition, piece));
+        possibleMoves.addAll(rookMoves.pieceMoves(board, startPosition, piece));
+        possibleMoves.addAll(bishopMoves.pieceMoves(board, startPosition, piece));
 
-        return validMoves;
+        return possibleMoves;
     }
 }

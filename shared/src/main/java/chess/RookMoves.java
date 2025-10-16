@@ -5,10 +5,10 @@ import java.util.List;
 
 public class RookMoves extends MovesCalculator{
 
-    private final List<ChessMove> validMoves;
+    private final List<ChessMove> possibleMoves;
 
     public RookMoves() {
-        this.validMoves = new ArrayList<>();
+        this.possibleMoves = new ArrayList<>();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class RookMoves extends MovesCalculator{
             endPosition = new ChessPosition(i, c);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
                 break; // has to be in bounds AND empty to keep going further
@@ -37,7 +37,7 @@ public class RookMoves extends MovesCalculator{
             endPosition = new ChessPosition(r, j);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
                 break; // has to be in bounds AND empty to keep going further
@@ -49,7 +49,7 @@ public class RookMoves extends MovesCalculator{
             endPosition = new ChessPosition(i, c);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
                 break; // has to be in bounds AND empty to keep going further
@@ -61,13 +61,13 @@ public class RookMoves extends MovesCalculator{
             endPosition = new ChessPosition(r, j);
             if (board.isValidSpot(piece, endPosition)) {
                 newMove = new ChessMove(startPosition, endPosition, null);
-                validMoves.add(newMove);
+                possibleMoves.add(newMove);
             }
             if (!board.inBounds(endPosition) || !board.isEmpty(endPosition)) {
                 break; // has to be in bounds AND empty to keep going further
             }
         }
 
-        return validMoves;
+        return possibleMoves;
     }
 }

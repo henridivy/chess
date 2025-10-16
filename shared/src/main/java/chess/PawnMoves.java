@@ -5,10 +5,10 @@ import java.util.List;
 
 public class PawnMoves extends MovesCalculator{
 
-    private final List<ChessMove> validMoves;
+    private final List<ChessMove> possibleMoves;
 
     public PawnMoves() {
-        this.validMoves = new ArrayList<>();
+        this.possibleMoves = new ArrayList<>();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PawnMoves extends MovesCalculator{
                         addPromotionPieces(startPosition, endPosition);
                     } else {    // not being promoted
                         newMove = new ChessMove(startPosition, endPosition, null);
-                        validMoves.add(newMove);
+                        possibleMoves.add(newMove);
                     }
 
                     // forward two - initial
@@ -53,7 +53,7 @@ public class PawnMoves extends MovesCalculator{
                         endPosition = possibleEnds[1];
                         if (board.isEmpty(endPosition)) {
                             newMove = new ChessMove(startPosition, endPosition, null);
-                            validMoves.add(newMove);
+                            possibleMoves.add(newMove);
                         }
                     }
                 }
@@ -67,7 +67,7 @@ public class PawnMoves extends MovesCalculator{
                         addPromotionPieces(startPosition, endPosition);
                     } else {    // not being promoted
                         newMove = new ChessMove(startPosition, endPosition, null);
-                        validMoves.add(newMove);
+                        possibleMoves.add(newMove);
                     }
                 }
             }
@@ -80,7 +80,7 @@ public class PawnMoves extends MovesCalculator{
                         addPromotionPieces(startPosition, endPosition);
                     } else {    // not being promoted
                         newMove = new ChessMove(startPosition, endPosition, null);
-                        validMoves.add(newMove);
+                        possibleMoves.add(newMove);
                     }
                 }
             }
@@ -97,7 +97,7 @@ public class PawnMoves extends MovesCalculator{
                         addPromotionPieces(startPosition, endPosition);
                     } else {    // not being promoted
                         newMove = new ChessMove(startPosition, endPosition, null);
-                        validMoves.add(newMove);
+                        possibleMoves.add(newMove);
                     }
 
                     // forward two - initial
@@ -105,7 +105,7 @@ public class PawnMoves extends MovesCalculator{
                         endPosition = possibleEnds[5];
                         if (board.isEmpty(endPosition)) {
                             newMove = new ChessMove(startPosition, endPosition, null);
-                            validMoves.add(newMove);
+                            possibleMoves.add(newMove);
                         }
                     }
                 }
@@ -119,7 +119,7 @@ public class PawnMoves extends MovesCalculator{
                         addPromotionPieces(startPosition, endPosition);
                     } else {    // not being promoted
                         newMove = new ChessMove(startPosition, endPosition, null);
-                        validMoves.add(newMove);
+                        possibleMoves.add(newMove);
                     }
                 }
             }
@@ -132,14 +132,14 @@ public class PawnMoves extends MovesCalculator{
                         addPromotionPieces(startPosition, endPosition);
                     } else {    // not being promoted
                         newMove = new ChessMove(startPosition, endPosition, null);
-                        validMoves.add(newMove);
+                        possibleMoves.add(newMove);
                     }
                 }
             }
         }
 
 
-        return validMoves;
+        return possibleMoves;
     }
 
     public void addPromotionPieces(ChessPosition startPosition, ChessPosition endPosition) {
@@ -152,7 +152,7 @@ public class PawnMoves extends MovesCalculator{
 
         for (var type : promotionTypes) {
             ChessMove newMove = new ChessMove(startPosition, endPosition, type);
-            validMoves.add(newMove);
+            possibleMoves.add(newMove);
         }
     }
 }
