@@ -52,7 +52,7 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+    public Collection<ChessMove> validMoves(ChessPosition startPosition) throws InvalidMoveException {
         // create a test board that will test each possible move
         ChessBoard testBoard = board.copyBoard();
 
@@ -75,8 +75,6 @@ public class ChessGame {
             testBoard = board.copyBoard();
         }
 
-        board.toString();
-
         return validMoves;
     }
 
@@ -88,24 +86,24 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        makeMoveHelper(board, move);
+//        try {
+            makeMoveHelper(board, move);
+//        } catch (InvalidMoveException ex) {
+//            System.out.println("No piece in position.");
+//        }
     }
 
-    public void makeMoveHelper(ChessBoard board, ChessMove move) {
+    public void makeMoveHelper(ChessBoard board, ChessMove move) throws InvalidMoveException {
 
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
 
         ChessPiece piece = board.getPiece(startPosition);
-//        if (piece == null) { throw new InvalidMoveException("No piece in starting position."); }
+        if (piece == null) { throw new InvalidMoveException(); }
 
         board.removePiece(startPosition);
         board.addPiece(endPosition, piece);
 
-//        if (isInCheck(piece.getTeamColor())) {
-///           board = backupBoard;
-//            throw new InvalidMoveException("King in check!");
-//        }
     }
 
 
