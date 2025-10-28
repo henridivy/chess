@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/shared/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/shared/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/server/src/test/java" isTestSource="true" />
     </content>
     <orderEntry type="jdk" jdkName="24" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
