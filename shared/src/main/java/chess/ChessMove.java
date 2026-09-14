@@ -8,8 +8,15 @@ package chess;
  */
 public class ChessMove {
 
+    private final ChessPosition start;
+    private final ChessPosition end;
+    private final ChessPiece.PieceType promotionPiece;
+
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
+        start = startPosition;
+        end = endPosition;
+        this.promotionPiece = promotionPiece;
     }
 
     /**
