@@ -1,6 +1,6 @@
 package chess;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Represents a single chess piece
@@ -52,6 +52,39 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+//        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> test = new ArrayList<>();
+        return test;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessPiece that = (ChessPiece) o;
+        return color == that.color && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
+    }
+
+    @Override
+    public String toString() {
+        String t;
+
+        // get the first (or second) letter of the piecetype
+        if (type == PieceType.KNIGHT) {
+            t = type.toString().substring(1, 2);
+        } else {
+            t = type.toString().substring(0, 1);
+        }
+
+        // return as lowercase for black pieces; leave as uppercase for white pieces
+        if (color == ChessGame.TeamColor.BLACK) {
+            return t.toLowerCase();
+        } else { return t; }
     }
 }
