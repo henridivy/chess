@@ -43,7 +43,34 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
+        clearBoard();
+
+        String[] pieces = {"rook","knight", "bishop", "queen", "king", "bishop", "knight", "rook"};
+        String[] pawns = {"pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"};
+
+        addPiecesToRow(1, ChessGame.TeamColor.WHITE, pieces);
+        addPiecesToRow(2, ChessGame.TeamColor.WHITE, pawns);
+        addPiecesToRow(7, ChessGame.TeamColor.BLACK, pawns);
+        addPiecesToRow(8, ChessGame.TeamColor.BLACK, pieces);
+    }
+
+    private void clearBoard() {
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 8; c++) {
+                board[r][c] = null;
+            }
+        }
+    }
+
+    public void addPiecesToRow(int row, ChessGame.TeamColor color, String[] pieceTypes) {
+        int col = 1;
+
+        for (var t : pieceTypes) {
+            ChessPosition newPos = new ChessPosition(row, col);
+            ChessPiece newPiece = new ChessPiece(color, ChessPiece.PieceType.valueOf(t.toUpperCase()));
+            addPiece(newPos, newPiece);
+            col++;
+        }
     }
 
     @Override
@@ -58,5 +85,24 @@ public class ChessBoard {
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(board);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder();
+        b.append("|");
+
+        // build board top down
+        for (int r = 8; r >= 1; r--) {
+            for (int c = 8; c >= 1; c--) {
+                if (board[r-1][c-1] != null) {
+                    b.append(board[r-1][c-1].toString());
+                } else { b.append(" "); }
+                b.append("|");
+            }
+            b.append("\n");
+        }
+
+        return b.toString();
     }
 }
