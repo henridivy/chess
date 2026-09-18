@@ -52,9 +52,18 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-//        throw new RuntimeException("Not implemented");
-        Collection<ChessMove> test = new ArrayList<>();
-        return test;
+        ChessPiece myPiece = board.getPiece(myPosition);
+
+        PieceType myType = myPiece.getPieceType();
+        ChessGame.TeamColor myColor = myPiece.getTeamColor();
+
+        PieceRule myRules = new BishopRule(board, myColor, myPosition);
+
+        if (myType == PieceType.BISHOP) { myRules = new BishopRule(board, myColor, myPosition); }
+//        else if (myType == PieceType.BISHOP) { BishopRule myRules = new BishopRule(board, myPosition); }
+        else { myRules = new BishopRule(board, myColor, myPosition); }
+
+        return myRules.getValidMoves();
     }
 
     @Override
