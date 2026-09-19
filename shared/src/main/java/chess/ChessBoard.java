@@ -73,6 +73,12 @@ public class ChessBoard {
         }
     }
 
+    public boolean inBounds(ChessPosition position) {
+        // checks that both row and column are between 0 and the board's length
+        return ((0 < position.getRow()) && (position.getRow() <= board.length)) &&
+                ((0 < position.getColumn()) && (position.getColumn() <= board[0].length));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

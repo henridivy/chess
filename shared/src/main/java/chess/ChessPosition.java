@@ -34,6 +34,10 @@ public class ChessPosition {
         return col;
     }
 
+    public boolean isOccupied(ChessBoard board) {
+        return (board.getPiece(this) != null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

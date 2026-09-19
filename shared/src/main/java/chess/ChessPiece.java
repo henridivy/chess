@@ -57,10 +57,10 @@ public class ChessPiece {
         PieceType myType = myPiece.getPieceType();
         ChessGame.TeamColor myColor = myPiece.getTeamColor();
 
-        PieceRule myRules = new BishopRule(board, myColor, myPosition);
+        PieceRule myRules;
 
         if (myType == PieceType.BISHOP) { myRules = new BishopRule(board, myColor, myPosition); }
-//        else if (myType == PieceType.BISHOP) { BishopRule myRules = new BishopRule(board, myPosition); }
+//        else if (myType == PieceType.KING) { myRules = new BishopRule(board, myColor, myPosition); }
         else { myRules = new BishopRule(board, myColor, myPosition); }
 
         return myRules.getValidMoves();
