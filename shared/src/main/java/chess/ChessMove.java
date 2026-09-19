@@ -69,6 +69,7 @@ public class ChessMove {
 
     @Override
     public String toString() {
-        return "(" + start.toString() + ")->(" + end.toString() + ")";
+        return String.format("%s%s", start, end);
+//        return "(" + start.toString() + ")->(" + end.toString() + ")";
     }
 }

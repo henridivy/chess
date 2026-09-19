@@ -96,11 +96,11 @@ public class ChessBoard {
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();
-        b.append("|");
 
-        // build board top down
+        // build top down
         for (int r = 8; r >= 1; r--) {
-            for (int c = 8; c >= 1; c--) {
+            b.append("|");
+            for (int c = 1; c <= 8; c++) {
                 if (board[r-1][c-1] != null) {
                     b.append(board[r-1][c-1].toString());
                 } else { b.append(" "); }

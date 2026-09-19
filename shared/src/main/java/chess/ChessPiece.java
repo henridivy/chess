@@ -60,7 +60,7 @@ public class ChessPiece {
         PieceRule myRules;
 
         if (myType == PieceType.BISHOP) { myRules = new BishopRule(board, myColor, myPosition); }
-//        else if (myType == PieceType.KING) { myRules = new BishopRule(board, myColor, myPosition); }
+        else if (myType == PieceType.ROOK) { myRules = new RookRule(board, myColor, myPosition); }
         else { myRules = new BishopRule(board, myColor, myPosition); }
 
         return myRules.getValidMoves();
