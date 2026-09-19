@@ -12,6 +12,7 @@ public class RookRule extends PieceRule {
 
     @Override
     public Collection<ChessMove> getValidMoves() {
+
         Collection<ChessMove> validMoves = new ArrayList<>();
 
         ChessPosition ending;
