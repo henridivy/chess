@@ -7,7 +7,7 @@ public class KnightRule extends PieceRule {
 
     public KnightRule(ChessBoard board, ChessGame.TeamColor color, ChessPosition starting) {
         super(board, color, starting);
-        this.type = ChessPiece.PieceType.ROOK;
+        this.type = ChessPiece.PieceType.KNIGHT;
     }
 
     @Override

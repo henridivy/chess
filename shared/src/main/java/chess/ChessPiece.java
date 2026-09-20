@@ -64,7 +64,7 @@ public class ChessPiece {
         else if (myType == PieceType.QUEEN) { myRules = new QueenRule(board, myColor, myPosition); }
         else if (myType == PieceType.KNIGHT) { myRules = new KnightRule(board, myColor, myPosition); }
         else if (myType == PieceType.KING) { myRules = new KingRule(board, myColor, myPosition); }
-        else { myRules = new BishopRule(board, myColor, myPosition); }
+        else { myRules = new PawnRule(board, myColor, myPosition); }
 
         return myRules.getValidMoves();
     }

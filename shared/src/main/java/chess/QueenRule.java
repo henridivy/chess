@@ -7,7 +7,7 @@ public class QueenRule extends PieceRule {
 
     public QueenRule(ChessBoard board, ChessGame.TeamColor color, ChessPosition starting) {
         super(board, color, starting);
-        this.type = ChessPiece.PieceType.ROOK;
+        this.type = ChessPiece.PieceType.QUEEN;
     }
 
     @Override

@@ -7,7 +7,7 @@ public class KingRule extends PieceRule {
 
     public KingRule(ChessBoard board, ChessGame.TeamColor color, ChessPosition starting) {
         super(board, color, starting);
-        this.type = ChessPiece.PieceType.ROOK;
+        this.type = ChessPiece.PieceType.KING;
     }
 
     @Override
