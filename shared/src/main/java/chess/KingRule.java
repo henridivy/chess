@@ -3,9 +3,9 @@ package chess;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class KnightRule extends PieceRule {
+public class KingRule extends PieceRule {
 
-    public KnightRule(ChessBoard board, ChessGame.TeamColor color, ChessPosition starting) {
+    public KingRule(ChessBoard board, ChessGame.TeamColor color, ChessPosition starting) {
         super(board, color, starting);
         this.type = ChessPiece.PieceType.ROOK;
     }
@@ -34,14 +34,14 @@ public class KnightRule extends PieceRule {
         int c = starting.getColumn();
 
         return new ChessPosition[]{
-                new ChessPosition(r + 1, c + 2),
-                new ChessPosition(r + 1, c - 2),
-                new ChessPosition(r - 1, c + 2),
-                new ChessPosition(r - 1, c - 2),
-                new ChessPosition(r + 2, c + 1),
-                new ChessPosition(r + 2, c - 1),
-                new ChessPosition(r - 2, c + 1),
-                new ChessPosition(r - 2, c - 1)
+                new ChessPosition(r + 1, c + 1),
+                new ChessPosition(r + 1, c),
+                new ChessPosition(r + 1, c - 1),
+                new ChessPosition(r, c + 1),
+                new ChessPosition(r, c - 1),
+                new ChessPosition(r - 1, c + 1),
+                new ChessPosition(r - 1, c),
+                new ChessPosition(r - 1, c - 1)
         };
     }
 }

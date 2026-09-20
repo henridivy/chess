@@ -33,4 +33,7 @@ public abstract class PieceRule {
         return true;
     }
 
+    protected ChessPosition[] getPossibleEndings() {
+        return new ChessPosition[]{};
+    }
 }
