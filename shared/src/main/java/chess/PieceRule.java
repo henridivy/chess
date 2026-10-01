@@ -4,33 +4,41 @@ import java.util.Collection;
 
 public abstract class PieceRule {
 
-    protected static ChessBoard board;
-    protected ChessPosition starting;
-    protected ChessPiece.PieceType type;
+    protected final ChessBoard board;
     protected ChessGame.TeamColor color;
+    protected ChessPosition starting;
+    // if needing a 'type' variable, create and assign it
+    // in the individual piece Rules; but it's currently
+    // never called so...
+
+    protected int r;
+    protected int c;
 
     public PieceRule(ChessBoard board, ChessGame.TeamColor color, ChessPosition starting) {
-        PieceRule.board = board;
-        this.starting = starting;
+        this.board = board;
         this.color = color;
+        this.starting = starting;
+
+        r = starting.getRow();
+        c = starting.getColumn();
     }
 
     public abstract Collection<ChessMove> getValidMoves();
 
-    public boolean notOccupiedFriend(ChessPosition position) {
-        if (position.isOccupied(board)) {
-            ChessPiece otherPiece = board.getPiece(position);
-            return otherPiece.getTeamColor() != color; // occupied by friend
+    protected boolean occupiedByFriend(ChessPosition position) {
+        var other = board.getPiece(position);
+        if (other != null) {
+            return other.getTeamColor() == color;
         }
-        return true;
+        return false;
     }
 
-    public boolean notOccupiedEnemy(ChessPosition position) {
-        if (position.isOccupied(board)) {
-            ChessPiece otherPiece = board.getPiece(position);
-            return otherPiece.getTeamColor() == color; // occupied by enemy
+    protected boolean occupiedByEnemy(ChessPosition position) {
+        var other = board.getPiece(position);
+        if (other != null) {
+            return other.getTeamColor() != color;
         }
-        return true;
+        return false;
     }
 
     protected ChessPosition[] getPossibleEndings() {

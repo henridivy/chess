@@ -30,13 +30,7 @@ public class ChessPosition {
      * @return which column this position is in
      * 1 codes for the left column
      */
-    public int getColumn() {
-        return col;
-    }
-
-    public boolean isOccupied(ChessBoard board) {
-        return (board.getPiece(this) != null);
-    }
+    public int getColumn() { return col; }
 
     @Override
     public boolean equals(Object o) {

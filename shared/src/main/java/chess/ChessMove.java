@@ -10,21 +10,21 @@ import java.util.Objects;
  */
 public class ChessMove {
 
-    private final ChessPosition start;
-    private final ChessPosition end;
-    private final ChessPiece.PieceType promotionPiece;
-
-    public ChessMove(ChessPosition startPosition, ChessPosition endPosition) {
-        start = startPosition;
-        end = endPosition;
-        promotionPiece = null;
-    }
+    ChessPosition start;
+    ChessPosition end;
+    ChessPiece.PieceType promotionPiece;
 
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
         start = startPosition;
         end = endPosition;
         this.promotionPiece = promotionPiece;
+    }
+
+    public ChessMove(ChessPosition startPosition, ChessPosition endPosition) {
+        start = startPosition;
+        end = endPosition;
+        this.promotionPiece = null;
     }
 
     /**
@@ -69,7 +69,9 @@ public class ChessMove {
 
     @Override
     public String toString() {
-        return String.format("%s%s", start, end);
-//        return "(" + start.toString() + ")->(" + end.toString() + ")";
+        if (promotionPiece == null) {
+            return String.format("%s%s", start, end);
+        }
+        return String.format("%s%s->%s", start, end, promotionPiece);
     }
 }

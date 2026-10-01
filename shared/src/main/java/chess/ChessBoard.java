@@ -42,41 +42,52 @@ public class ChessBoard {
      * Sets the board to the default starting board
      * (How the game of chess normally starts)
      */
+
+//            |r|n|b|q|k|b|n|r|
+//            |p|p|p|p|p|p|p|p|
+//            | | | | | | | | |
+//            | | | | | | | | |
+//            | | | | | | | | |
+//            | | | | | | | | |
+//            |P|P|P|P|P|P|P|P|
+//            |R|N|B|Q|K|B|N|R|
+
     public void resetBoard() {
         clearBoard();
 
-        String[] pieces = {"rook","knight", "bishop", "queen", "king", "bishop", "knight", "rook"};
+        String[] pieces = {"rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"};
         String[] pawns = {"pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"};
 
-        addPiecesToRow(1, ChessGame.TeamColor.WHITE, pieces);
-        addPiecesToRow(2, ChessGame.TeamColor.WHITE, pawns);
-        addPiecesToRow(7, ChessGame.TeamColor.BLACK, pawns);
-        addPiecesToRow(8, ChessGame.TeamColor.BLACK, pieces);
+        addPiecesToRow(pieces, ChessGame.TeamColor.WHITE, 1);
+        addPiecesToRow(pawns, ChessGame.TeamColor.WHITE, 2);
+        addPiecesToRow(pawns, ChessGame.TeamColor.BLACK, 7);
+        addPiecesToRow(pieces, ChessGame.TeamColor.BLACK, 8);
     }
 
     private void clearBoard() {
-        for (int r = 0; r < 8; r++) {
-            for (int c = 0; c < 8; c++) {
-                board[r][c] = null;
+        for (int r = 1; r <= 8; r++) {
+            for (int c = 1; c <= 8; c++) {
+                board[r-1][c-1] = null;
             }
         }
     }
 
-    public void addPiecesToRow(int row, ChessGame.TeamColor color, String[] pieceTypes) {
+    private void addPiecesToRow(String[] pieceTypes, ChessGame.TeamColor color, int row) {
         int col = 1;
-
-        for (var t : pieceTypes) {
-            ChessPosition newPos = new ChessPosition(row, col);
-            ChessPiece newPiece = new ChessPiece(color, ChessPiece.PieceType.valueOf(t.toUpperCase()));
-            addPiece(newPos, newPiece);
+        for (var type : pieceTypes) {
+            ChessPiece piece = new ChessPiece(color, ChessPiece.PieceType.valueOf(type.toUpperCase()));
+            ChessPosition position = new ChessPosition(row, col);
+            addPiece(position, piece);
             col++;
         }
     }
 
     public boolean inBounds(ChessPosition position) {
-        // checks that both row and column are between 0 and the board's length
-        return ((0 < position.getRow()) && (position.getRow() <= board.length)) &&
-                ((0 < position.getColumn()) && (position.getColumn() <= board[0].length));
+        int r = position.getRow();
+        int c = position.getColumn();
+
+        return (0 < r && r <= board.length) &&
+                (0 < c && c <= board[0].length);
     }
 
     @Override

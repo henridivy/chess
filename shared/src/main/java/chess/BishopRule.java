@@ -7,7 +7,6 @@ public class BishopRule extends PieceRule {
 
     public BishopRule(ChessBoard board, ChessGame.TeamColor color, ChessPosition starting) {
         super(board, color, starting);
-        this.type = ChessPiece.PieceType.BISHOP;
     }
 
     @Override
@@ -16,77 +15,58 @@ public class BishopRule extends PieceRule {
         Collection<ChessMove> validMoves = new ArrayList<>();
 
         ChessPosition ending;
-
-        int r = starting.getRow();
-        int c = starting.getColumn();
         int i;
 
         // top right
         i = 1;
         ending = new ChessPosition(r + i, c + i);
         while (board.inBounds(ending)) {
-            if (notOccupiedFriend(ending)) { // no friend = valid, so add move
+            if (!occupiedByFriend(ending)) {                        // no friend = valid, so add moves
                 validMoves.add(new ChessMove(starting, ending));
-                if (notOccupiedEnemy(ending)) { // no enemy = empty, so continue checking; while loop continues
+                if (!occupiedByEnemy(ending)) {                     // no enemy = empty, so update and continue checking
                     i++;
                     ending = new ChessPosition(r + i, c + i);
-                } else { // yes enemy = blocked, so stop checking; move already added
-                    break;
-                }
-            } else { // yes friend = blocked, so stop checking; move was never added
-                break;
-            }
+                } else { break; }                                   // yes enemy = blocked, so stop checking; move was already added
+            } else { break; }                                       // yes friend = blocked, so stop checking; move was never added
         }
 
         // bottom right
         i = 1;
         ending = new ChessPosition(r - i, c + i);
         while (board.inBounds(ending)) {
-            if (notOccupiedFriend(ending)) { // no friend = valid, so add move
+            if (!occupiedByFriend(ending)) {
                 validMoves.add(new ChessMove(starting, ending));
-                if (notOccupiedEnemy(ending)) { // no enemy = empty, so continue checking; while loop continues
+                if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r - i, c + i);
-                } else { // yes enemy = blocked, so stop checking; move already added
-                    break;
-                }
-            } else { // yes friend = blocked, so stop checking; move was never added
-                break;
-            }
+                } else { break; }
+            } else { break; }
         }
 
         // bottom left
         i = 1;
         ending = new ChessPosition(r - i, c - i);
         while (board.inBounds(ending)) {
-            if (notOccupiedFriend(ending)) { // no friend = valid, so add move
+            if (!occupiedByFriend(ending)) {
                 validMoves.add(new ChessMove(starting, ending));
-                if (notOccupiedEnemy(ending)) { // no enemy = empty, so continue checking; while loop continues
+                if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r - i, c - i);
-                } else { // yes enemy = blocked, so stop checking; move already added
-                    break;
-                }
-            } else { // yes friend = blocked, so stop checking; move was never added
-                break;
-            }
+                } else { break; }
+            } else { break; }
         }
 
         // top left
         i = 1;
         ending = new ChessPosition(r + i, c - i);
         while (board.inBounds(ending)) {
-            if (notOccupiedFriend(ending)) { // no friend = valid, so add move
+            if (!occupiedByFriend(ending)) {
                 validMoves.add(new ChessMove(starting, ending));
-                if (notOccupiedEnemy(ending)) { // no enemy = empty, so continue checking; while loop continues
+                if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r + i, c - i);
-                } else { // yes enemy = blocked, so stop checking; move already added
-                    break;
-                }
-            } else { // yes friend = blocked, so stop checking; move was never added
-                break;
-            }
+                } else { break; }
+            } else { break; }
         }
 
         return validMoves;

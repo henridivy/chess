@@ -1,6 +1,7 @@
 package chess;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -14,7 +15,7 @@ public class ChessPiece {
     private final PieceType type;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        this.color = pieceColor;
+        color = pieceColor;
         this.type = type;
     }
 
@@ -33,16 +34,12 @@ public class ChessPiece {
     /**
      * @return Which team this chess piece belongs to
      */
-    public ChessGame.TeamColor getTeamColor() {
-        return color;
-    }
+    public ChessGame.TeamColor getTeamColor() { return color; }
 
     /**
      * @return which type of chess piece this piece is
      */
-    public PieceType getPieceType() {
-        return type;
-    }
+    public PieceType getPieceType() { return type; }
 
     /**
      * Calculates all the positions a chess piece can move to
@@ -52,21 +49,17 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ChessPiece myPiece = board.getPiece(myPosition);
 
-        PieceType myType = myPiece.getPieceType();
-        ChessGame.TeamColor myColor = myPiece.getTeamColor();
+        PieceRule myRule;
 
-        PieceRule myRules;
+        if (type == PieceType.BISHOP) { myRule = new BishopRule(board, color, myPosition); }
+        else if (type == PieceType.ROOK) { myRule = new RookRule(board, color, myPosition); }
+        else if (type == PieceType.QUEEN) { myRule = new QueenRule(board, color, myPosition); }
+        else if (type == PieceType.KING) { myRule = new KingRule(board, color, myPosition); }
+        else if (type == PieceType.KNIGHT) { myRule = new KnightRule(board, color, myPosition); }
+        else { myRule = new PawnRule(board, color, myPosition); }
 
-        if (myType == PieceType.BISHOP) { myRules = new BishopRule(board, myColor, myPosition); }
-        else if (myType == PieceType.ROOK) { myRules = new RookRule(board, myColor, myPosition); }
-        else if (myType == PieceType.QUEEN) { myRules = new QueenRule(board, myColor, myPosition); }
-        else if (myType == PieceType.KNIGHT) { myRules = new KnightRule(board, myColor, myPosition); }
-        else if (myType == PieceType.KING) { myRules = new KingRule(board, myColor, myPosition); }
-        else { myRules = new PawnRule(board, myColor, myPosition); }
-
-        return myRules.getValidMoves();
+        return myRule.getValidMoves();
     }
 
     @Override
@@ -85,18 +78,20 @@ public class ChessPiece {
 
     @Override
     public String toString() {
-        String t;
+        String s;
 
-        // get the first (or second) letter of the piecetype
+        // get appropriate letter
         if (type == PieceType.KNIGHT) {
-            t = type.toString().substring(1, 2);
+            s = type.toString().substring(1, 2); // second letter
         } else {
-            t = type.toString().substring(0, 1);
+            s = type.toString().substring(0, 1); // first letter
         }
 
-        // return as lowercase for black pieces; leave as uppercase for white pieces
+        // set appropriate case
         if (color == ChessGame.TeamColor.BLACK) {
-            return t.toLowerCase();
-        } else { return t; }
+            return s.toLowerCase();
+        } else {
+            return s.toUpperCase();
+        }
     }
 }
