@@ -60,26 +60,16 @@ public class PawnRule extends PieceRule {
             }
         }
 
-        // capture left (valid = in bounds and enemy)
-        ending = endings[2];
-        if (board.inBounds(ending)) {
-            if (occupiedByEnemy(ending)) {
-                if (promotable(ending)) {
-                    addWithPromotion(validMoves, starting, ending);
-                } else {
-                    validMoves.add(new ChessMove(starting, ending));
-                }
-            }
-        }
-
-        // capture right (valid = in bounds and enemy)
-        ending = endings[3];
-        if (board.inBounds(ending)) {
-            if (occupiedByEnemy(ending)) {
-                if (promotable(ending)) {
-                    addWithPromotion(validMoves, starting, ending);
-                } else {
-                    validMoves.add(new ChessMove(starting, ending));
+        // capture left then right (valid = in bounds and enemy)
+        for (int i : new int[]{2, 3}) {
+            ending = endings[i];
+            if (board.inBounds(ending)) {
+                if (occupiedByEnemy(ending)) {
+                    if (promotable(ending)) {
+                        addWithPromotion(validMoves, starting, ending);
+                    } else {
+                        validMoves.add(new ChessMove(starting, ending));
+                    }
                 }
             }
         }
