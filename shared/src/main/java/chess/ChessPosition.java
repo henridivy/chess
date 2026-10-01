@@ -32,6 +32,10 @@ public class ChessPosition {
      */
     public int getColumn() { return col; }
 
+    public boolean isEmpty(ChessBoard board) {
+        return (board.getPiece(this) == null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

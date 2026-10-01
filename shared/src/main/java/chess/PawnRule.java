@@ -27,6 +27,13 @@ public class PawnRule extends PieceRule {
         return (ending.getRow() == 8);
     }
 
+    private void addWithPromotion(Collection<ChessMove> validMoves, ChessPosition starting, ChessPosition ending) {
+        validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.BISHOP));
+        validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.ROOK));
+        validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.KNIGHT));
+        validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.QUEEN));
+    }
+
     @Override
     public Collection<ChessMove> getValidMoves() {
         Collection<ChessMove> validMoves = new ArrayList<>();
@@ -34,25 +41,21 @@ public class PawnRule extends PieceRule {
         ChessPosition ending;
         var endings = getPossibleEndings();
 
-        // move forward one (valid = in bounds and empty)
+        // move forward one (valid = and empty)
+        // note: no need to check if in bounds because these will ALWAYS be in bounds
         ending = endings[0];
-        if (board.inBounds(ending)) {
-            if (!occupiedByFriend(ending) && !occupiedByEnemy(ending)) {
-                if (promotable(ending)) {
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.BISHOP));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.ROOK));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.KNIGHT));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.QUEEN));
-                } else { validMoves.add(new ChessMove(starting, ending)); }
+        if (ending.isEmpty(board)) {
+            if (promotable(ending)) {
+                addWithPromotion(validMoves, starting, ending);
+            } else {
+                validMoves.add(new ChessMove(starting, ending));
+            }
 
-                // move forward two (valid = hasn't moved, in bounds and empty)
-                ending = endings[1];
-                if (!hasMoved) {
-                    if (board.inBounds(ending)) {
-                        if (!occupiedByFriend(ending) && !occupiedByEnemy(ending)) {
-                            validMoves.add(new ChessMove(starting, ending));
-                        }
-                    }
+            // move forward two (valid = hasn't moved, and empty)
+            ending = endings[1];
+            if (!hasMoved) {
+                if (ending.isEmpty(board)) {
+                    validMoves.add(new ChessMove(starting, ending));
                 }
             }
         }
@@ -62,11 +65,10 @@ public class PawnRule extends PieceRule {
         if (board.inBounds(ending)) {
             if (occupiedByEnemy(ending)) {
                 if (promotable(ending)) {
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.BISHOP));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.ROOK));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.KNIGHT));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.QUEEN));
-                } else { validMoves.add(new ChessMove(starting, ending)); }
+                    addWithPromotion(validMoves, starting, ending);
+                } else {
+                    validMoves.add(new ChessMove(starting, ending));
+                }
             }
         }
 
@@ -75,11 +77,10 @@ public class PawnRule extends PieceRule {
         if (board.inBounds(ending)) {
             if (occupiedByEnemy(ending)) {
                 if (promotable(ending)) {
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.BISHOP));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.ROOK));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.KNIGHT));
-                    validMoves.add(new ChessMove(starting, ending, ChessPiece.PieceType.QUEEN));
-                } else { validMoves.add(new ChessMove(starting, ending)); }
+                    addWithPromotion(validMoves, starting, ending);
+                } else {
+                    validMoves.add(new ChessMove(starting, ending));
+                }
             }
         }
 
