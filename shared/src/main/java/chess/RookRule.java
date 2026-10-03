@@ -10,8 +10,8 @@ public class RookRule extends PieceRule {
     }
 
     @Override
-    public Collection<ChessMove> getValidMoves() {
-        Collection<ChessMove> validMoves = new ArrayList<>();
+    public Collection<ChessMove> getPieceMoves() {
+        Collection<ChessMove> pieceMoves = new ArrayList<>();
 
         ChessPosition ending;
         int i;
@@ -21,7 +21,7 @@ public class RookRule extends PieceRule {
         ending = new ChessPosition(r + i, c);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {                        // no friend = valid, so add moves
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {                     // no enemy = empty, so update and continue checking
                     i++;
                     ending = new ChessPosition(r + i, c);
@@ -34,7 +34,7 @@ public class RookRule extends PieceRule {
         ending = new ChessPosition(r, c + i);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r, c + i);
@@ -47,7 +47,7 @@ public class RookRule extends PieceRule {
         ending = new ChessPosition(r - i, c);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r - i, c);
@@ -60,7 +60,7 @@ public class RookRule extends PieceRule {
         ending = new ChessPosition(r, c - i);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r, c - i);
@@ -68,6 +68,6 @@ public class RookRule extends PieceRule {
             } else { break; }
         }
 
-        return validMoves;
+        return pieceMoves;
     }
 }

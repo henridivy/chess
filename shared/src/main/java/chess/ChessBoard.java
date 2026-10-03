@@ -9,9 +9,9 @@ import java.util.Objects;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
-public class ChessBoard {
+public class ChessBoard implements Cloneable {
 
-    private final ChessPiece[][] board;
+    private ChessPiece[][] board;
 
     public ChessBoard() {
         board = new ChessPiece[8][8];
@@ -88,6 +88,28 @@ public class ChessBoard {
 
         return (0 < r && r <= board.length) &&
                 (0 < c && c <= board[0].length);
+    }
+
+    @Override
+    protected ChessBoard clone() {
+        // get the shallow copy field structure
+        try {
+            ChessBoard clonedBoard = (ChessBoard) super.clone();
+            clonedBoard.board = board.clone();
+            return clonedBoard;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+//        // loop through and explicitly clone the
+//        // mutable nested objects (deep cloning)
+//        for (int r = 1; r <= 8; r++) {
+//            for (int c = 1; c <= 8; c++) {
+//                if (board[r-1][c-1] != null) {
+//                    ChessPiece clonedPiece = (ChessPiece) board[r-1][c-1].clone();
+//                    clonedBoard.addPiece(new ChessPosition(r, c), clonedPiece);
+//                }
+//            }
+//        }
     }
 
     @Override

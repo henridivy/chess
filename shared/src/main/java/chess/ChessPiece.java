@@ -59,8 +59,13 @@ public class ChessPiece {
         else if (type == PieceType.KNIGHT) { myRule = new KnightRule(board, color, myPosition); }
         else { myRule = new PawnRule(board, color, myPosition); }
 
-        return myRule.getValidMoves();
+        return myRule.getPieceMoves();
     }
+
+//    @Override
+//    protected Object clone() throws CloneNotSupportedException {
+//        return super.clone();
+//    }
 
     @Override
     public boolean equals(Object o) {

@@ -23,7 +23,7 @@ public abstract class PieceRule {
         c = starting.getColumn();
     }
 
-    public abstract Collection<ChessMove> getValidMoves();
+    public abstract Collection<ChessMove> getPieceMoves();
 
     protected boolean occupiedByFriend(ChessPosition position) {
         var other = board.getPiece(position);

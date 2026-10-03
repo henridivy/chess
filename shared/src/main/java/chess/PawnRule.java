@@ -35,8 +35,8 @@ public class PawnRule extends PieceRule {
     }
 
     @Override
-    public Collection<ChessMove> getValidMoves() {
-        Collection<ChessMove> validMoves = new ArrayList<>();
+    public Collection<ChessMove> getPieceMoves() {
+        Collection<ChessMove> pieceMoves = new ArrayList<>();
 
         ChessPosition ending;
         var endings = getPossibleEndings();
@@ -46,16 +46,16 @@ public class PawnRule extends PieceRule {
         ending = endings[0];
         if (ending.isEmpty(board)) {
             if (promotable(ending)) {
-                addWithPromotion(validMoves, starting, ending);
+                addWithPromotion(pieceMoves, starting, ending);
             } else {
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
             }
 
             // move forward two (valid = hasn't moved, and empty)
             ending = endings[1];
             if (!hasMoved) {
                 if (ending.isEmpty(board)) {
-                    validMoves.add(new ChessMove(starting, ending));
+                    pieceMoves.add(new ChessMove(starting, ending));
                 }
             }
         }
@@ -66,15 +66,15 @@ public class PawnRule extends PieceRule {
             if (board.inBounds(ending)) {
                 if (occupiedByEnemy(ending)) {
                     if (promotable(ending)) {
-                        addWithPromotion(validMoves, starting, ending);
+                        addWithPromotion(pieceMoves, starting, ending);
                     } else {
-                        validMoves.add(new ChessMove(starting, ending));
+                        pieceMoves.add(new ChessMove(starting, ending));
                     }
                 }
             }
         }
 
-        return validMoves;
+        return pieceMoves;
     }
 
 

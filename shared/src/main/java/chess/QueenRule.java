@@ -10,15 +10,15 @@ public class QueenRule extends PieceRule {
     }
 
     @Override
-    public Collection<ChessMove> getValidMoves() {
-        Collection<ChessMove> validMoves = new ArrayList<>();
+    public Collection<ChessMove> getPieceMoves() {
+        Collection<ChessMove> pieceMoves = new ArrayList<>();
 
         BishopRule bishopRule = new BishopRule(board, color, starting);
         RookRule rookRule = new RookRule(board, color, starting);
 
-        validMoves.addAll(bishopRule.getValidMoves());
-        validMoves.addAll(rookRule.getValidMoves());
+        pieceMoves.addAll(bishopRule.getPieceMoves());
+        pieceMoves.addAll(rookRule.getPieceMoves());
 
-        return validMoves;
+        return pieceMoves;
     }
 }

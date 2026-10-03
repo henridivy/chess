@@ -10,19 +10,20 @@ public class BishopRule extends PieceRule {
     }
 
     @Override
-    public Collection<ChessMove> getValidMoves() {
+    public Collection<ChessMove> getPieceMoves() {
 
-        Collection<ChessMove> validMoves = new ArrayList<>();
+        Collection<ChessMove> pieceMoves = new ArrayList<>();
 
         ChessPosition ending;
         int i;
+
 
         // top right
         i = 1;
         ending = new ChessPosition(r + i, c + i);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {                        // no friend = valid, so add moves
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {                     // no enemy = empty, so update and continue checking
                     i++;
                     ending = new ChessPosition(r + i, c + i);
@@ -35,7 +36,7 @@ public class BishopRule extends PieceRule {
         ending = new ChessPosition(r - i, c + i);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r - i, c + i);
@@ -48,7 +49,7 @@ public class BishopRule extends PieceRule {
         ending = new ChessPosition(r - i, c - i);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r - i, c - i);
@@ -61,7 +62,7 @@ public class BishopRule extends PieceRule {
         ending = new ChessPosition(r + i, c - i);
         while (board.inBounds(ending)) {
             if (!occupiedByFriend(ending)) {
-                validMoves.add(new ChessMove(starting, ending));
+                pieceMoves.add(new ChessMove(starting, ending));
                 if (!occupiedByEnemy(ending)) {
                     i++;
                     ending = new ChessPosition(r + i, c - i);
@@ -69,6 +70,6 @@ public class BishopRule extends PieceRule {
             } else { break; }
         }
 
-        return validMoves;
+        return pieceMoves;
     }
 }

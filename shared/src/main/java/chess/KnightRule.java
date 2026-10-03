@@ -11,18 +11,18 @@ public class KnightRule extends PieceRule {
     }
 
     @Override
-    public Collection<ChessMove> getValidMoves() {
-        Collection<ChessMove> validMoves = new ArrayList<>();
+    public Collection<ChessMove> getPieceMoves() {
+        Collection<ChessMove> pieceMoves = new ArrayList<>();
 
         for (var ending : getPossibleEndings()) {
             if (board.inBounds(ending)) {
                 if (!occupiedByFriend(ending)) {
-                    validMoves.add(new ChessMove(starting, ending));
+                    pieceMoves.add(new ChessMove(starting, ending));
                 }
             }
         }
 
-        return validMoves;
+        return pieceMoves;
     }
 
     @Override

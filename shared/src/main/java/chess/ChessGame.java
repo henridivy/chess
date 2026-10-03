@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -50,7 +51,17 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = board.getPiece(startPosition);
-        return piece.pieceMoves(board, startPosition);
+        if (piece == null) { return null; }
+        Collection<ChessMove> pieceMoves = piece.pieceMoves(board, startPosition);
+
+        // actually legal moves; moves that will not result in the king being in check
+        Collection<ChessMove> validMoves = new ArrayList<>();
+
+        // simulate every move, checking if the king is in check
+        ChessBoard testBoard = (ChessBoard) board.clone();
+        testBoard.addPiece(new ChessPosition(5, 5), new ChessPiece(TeamColor.BLACK, ChessPiece.PieceType.KING));
+
+        return validMoves;
     }
 
     /**
@@ -63,6 +74,31 @@ public class ChessGame {
 
         ChessPosition start = move.getStartPosition();
         ChessPosition end = move.getEndPosition();
+        // get the piece at the move's starting position
+        ChessPiece piece = board.getPiece(start);
+
+
+            // check if it's the piece's team's turn
+            if (piece.getTeamColor() == teamTurn) {
+                Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
+
+                // check if move is valid
+                if (validMoves.contains(move)) {
+                    makeMoveHelper(move);
+                }
+
+
+            } else {
+                throw new InvalidMoveException("Invalid move: Wrong team's turn");
+            }
+//        } catch (CloneNotSupportedException e) {
+//        throw new CloneNotSupportedException("Clone can't be created.");
+
+    }
+
+    private void makeMoveHelper(ChessMove move) {
+        ChessPosition start = move.getStartPosition();
+        ChessPosition end = move.getEndPosition();
 
         // get the piece at the move's starting position
         ChessPiece piece = board.getPiece(start);
@@ -72,6 +108,9 @@ public class ChessGame {
 
         // set the starting position to null
         board.addPiece(start, null);
+
+        // set the next team's turn
+        changeTeamTurn();
     }
 
     /**
@@ -121,6 +160,11 @@ public class ChessGame {
         return board;
     }
 
+    private void changeTeamTurn() {
+        if (teamTurn == TeamColor.WHITE) { setTeamTurn(TeamColor.BLACK); }
+        else { setTeamTurn(TeamColor.WHITE); }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -137,9 +181,8 @@ public class ChessGame {
 
     @Override
     public String toString() {
-        return "ChessGame{" +
-                "board=" + board.toString() +
-                ", teamTurn=" + teamTurn +
-                '}';
+        return "ChessGame: \n" +
+                "\nteamTurn = " + teamTurn +
+                "\nboard =\n" + board.toString();
     }
 }
