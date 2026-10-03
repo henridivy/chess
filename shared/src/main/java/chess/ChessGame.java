@@ -58,8 +58,8 @@ public class ChessGame {
         Collection<ChessMove> validMoves = new ArrayList<>();
 
         // simulate every move, checking if the king is in check
-        ChessBoard testBoard = (ChessBoard) board.clone();
-        testBoard.addPiece(new ChessPosition(5, 5), new ChessPiece(TeamColor.BLACK, ChessPiece.PieceType.KING));
+        ChessBoard testBoard = board.clone();
+        testBoard.addPiece(new ChessPosition(3, 5), new ChessPiece(TeamColor.BLACK, ChessPiece.PieceType.BISHOP));
 
         return validMoves;
     }

@@ -91,25 +91,23 @@ public class ChessBoard implements Cloneable {
     }
 
     @Override
-    protected ChessBoard clone() {
-        // get the shallow copy field structure
-        try {
-            ChessBoard clonedBoard = (ChessBoard) super.clone();
-            clonedBoard.board = board.clone();
-            return clonedBoard;
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
+    public ChessBoard clone() {
+        // make a new chess board
+        ChessBoard clonedBoard = new ChessBoard();
+
+        // loop through and explicitly clone the chess pieces (deep cloning)
+        for (int r = 1; r <= 8; r++) {
+            for (int c = 1; c <= 8; c++) {
+                if (board[r-1][c-1] != null) {
+                    ChessPosition position = new ChessPosition(r, c);
+                    ChessPiece originalPiece = getPiece(position);
+                    ChessPiece clonedPiece = new ChessPiece(originalPiece.getTeamColor(), originalPiece.getPieceType());
+                    clonedBoard.addPiece(position, clonedPiece);
+                }
+            }
         }
-//        // loop through and explicitly clone the
-//        // mutable nested objects (deep cloning)
-//        for (int r = 1; r <= 8; r++) {
-//            for (int c = 1; c <= 8; c++) {
-//                if (board[r-1][c-1] != null) {
-//                    ChessPiece clonedPiece = (ChessPiece) board[r-1][c-1].clone();
-//                    clonedBoard.addPiece(new ChessPosition(r, c), clonedPiece);
-//                }
-//            }
-//        }
+
+        return clonedBoard;
     }
 
     @Override
