@@ -52,14 +52,24 @@ public class ChessGame {
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = board.getPiece(startPosition);
         if (piece == null) { return null; }
-        Collection<ChessMove> pieceMoves = piece.pieceMoves(board, startPosition);
 
-        // actually legal moves; moves that will not result in the king being in check
         Collection<ChessMove> validMoves = new ArrayList<>();
 
-        // simulate every move, checking if the king is in check
-        ChessBoard testBoard = board.clone();
-        testBoard.addPiece(new ChessPosition(3, 5), new ChessPiece(TeamColor.BLACK, ChessPiece.PieceType.BISHOP));
+        Collection<ChessMove> pieceMoves = piece.pieceMoves(board, startPosition);
+
+        ChessBoard backupBoard = board.clone();
+
+        // test each move on the board and check if the king is in check after
+        for (var move : pieceMoves) {
+            makeMoveHelper(move.getStartPosition(), move.getEndPosition(), piece, board);
+
+            if (!isInCheck(piece.getTeamColor())) {
+                validMoves.add(move);
+            }
+
+            // return the board to its original state
+            board = backupBoard.clone();
+        }
 
         return validMoves;
     }
@@ -74,43 +84,33 @@ public class ChessGame {
 
         ChessPosition start = move.getStartPosition();
         ChessPosition end = move.getEndPosition();
+        
         // get the piece at the move's starting position
         ChessPiece piece = board.getPiece(start);
 
+        // check if move is in valid (empty position, wrong team color, or leaves king in check)
+        if (piece == null) { throw new InvalidMoveException("No piece at start position."); }
+        if (piece.getTeamColor() != teamTurn) { throw new InvalidMoveException("Wrong team's turn."); }
+        if (!validMoves(start).contains(move)) { throw new InvalidMoveException("Invalid move."); }
 
-            // check if it's the piece's team's turn
-            if (piece.getTeamColor() == teamTurn) {
-                Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
+        // make the move
+        makeMoveHelper(start, end, piece, board);
 
-                // check if move is valid
-                if (validMoves.contains(move)) {
-                    makeMoveHelper(move);
-                }
-
-
-            } else {
-                throw new InvalidMoveException("Invalid move: Wrong team's turn");
-            }
-//        } catch (CloneNotSupportedException e) {
-//        throw new CloneNotSupportedException("Clone can't be created.");
-
+        // set the next team's turn
+        changeTeamTurn();
     }
 
-    private void makeMoveHelper(ChessMove move) {
-        ChessPosition start = move.getStartPosition();
-        ChessPosition end = move.getEndPosition();
-
-        // get the piece at the move's starting position
-        ChessPiece piece = board.getPiece(start);
+    private void makeMoveHelper(ChessPosition start, ChessPosition end, ChessPiece piece, ChessBoard board) {
+        /*
+        this is the function that actually performs whatever move on whatever board its given
+        and doesn't check for any kind of validity
+         */
 
         // add the piece to the board at the ending position
         board.addPiece(end, piece);
 
         // set the starting position to null
         board.addPiece(start, null);
-
-        // set the next team's turn
-        changeTeamTurn();
     }
 
     /**
@@ -120,7 +120,28 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+
+        // find the team's king and save its position
+        ChessPosition kingPosition = getKingPosition(teamColor);
+
+        // loop through pieces on the board
+        for (int r = 1; r <= 8; r++) {
+            for (int c = 1; c <= 8; c++) {
+                ChessPosition position = new ChessPosition(r, c);
+                ChessPiece piece = board.getPiece(position);
+                if (piece != null) {
+                    if (piece.getTeamColor() != teamColor) { // for enemy pieces
+                        // check if the kings position is in any of the valid moves ending position
+                        for (var move : piece.pieceMoves(board, position)) {
+                            ChessPosition end = move.getEndPosition();
+                            if (end.equals(kingPosition)) { return true; }      // can't use ==, must use equals()
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -163,6 +184,23 @@ public class ChessGame {
     private void changeTeamTurn() {
         if (teamTurn == TeamColor.WHITE) { setTeamTurn(TeamColor.BLACK); }
         else { setTeamTurn(TeamColor.WHITE); }
+    }
+
+    private ChessPosition getKingPosition(TeamColor teamColor) {
+        for (int r = 1; r <= 8; r++) {
+            for (int c = 1; c <= 8; c++) {
+                ChessPosition position = new ChessPosition(r, c);
+                ChessPiece piece = board.getPiece(position);
+                if (piece != null) {
+                    if (piece.getTeamColor() == teamColor) {
+                        if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+                            return position;
+                        }
+                    }
+                }
+            }
+        }
+        throw new RuntimeException("Implementation Error: No king on board.");
     }
 
     @Override
