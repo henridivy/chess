@@ -84,7 +84,8 @@ public class ChessGame {
 
         ChessPosition start = move.getStartPosition();
         ChessPosition end = move.getEndPosition();
-        
+        ChessPiece.PieceType promotionPiece = move.getPromotionPiece();
+
         // get the piece at the move's starting position
         ChessPiece piece = board.getPiece(start);
 
@@ -92,6 +93,11 @@ public class ChessGame {
         if (piece == null) { throw new InvalidMoveException("No piece at start position."); }
         if (piece.getTeamColor() != teamTurn) { throw new InvalidMoveException("Wrong team's turn."); }
         if (!validMoves(start).contains(move)) { throw new InvalidMoveException("Invalid move."); }
+
+        // promote if needed
+        if (promotionPiece != null) {
+            piece = new ChessPiece(piece.getTeamColor(), promotionPiece);
+        }
 
         // make the move
         makeMoveHelper(start, end, piece, board);
