@@ -13,6 +13,7 @@ public class ChessPiece {
 
     private final ChessGame.TeamColor color;
     private final PieceType type;
+    private ChessPosition currentPosition = null;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         color = pieceColor;
@@ -49,17 +50,24 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        currentPosition = myPosition;
 
+        return pieceMovesHelper(board);
+    }
+
+    public Collection<ChessMove> pieceMovesHelper(ChessBoard board) {
+        // move pieceMoves stuff here, and make pieceMoves call me
         PieceRule myRule;
 
-        if (type == PieceType.BISHOP) { myRule = new BishopRule(board, color, myPosition); }
-        else if (type == PieceType.ROOK) { myRule = new RookRule(board, color, myPosition); }
-        else if (type == PieceType.QUEEN) { myRule = new QueenRule(board, color, myPosition); }
-        else if (type == PieceType.KING) { myRule = new KingRule(board, color, myPosition); }
-        else if (type == PieceType.KNIGHT) { myRule = new KnightRule(board, color, myPosition); }
-        else { myRule = new PawnRule(board, color, myPosition); }
+        if (type == PieceType.BISHOP) { myRule = new BishopRule(board, color, currentPosition); }
+        else if (type == PieceType.ROOK) { myRule = new RookRule(board, color, currentPosition); }
+        else if (type == PieceType.QUEEN) { myRule = new QueenRule(board, color, currentPosition); }
+        else if (type == PieceType.KING) { myRule = new KingRule(board, color, currentPosition); }
+        else if (type == PieceType.KNIGHT) { myRule = new KnightRule(board, color, currentPosition); }
+        else { myRule = new PawnRule(board, color, currentPosition); }
 
         return myRule.getPieceMoves();
+//        throw new RuntimeException();
     }
 
 //    @Override
