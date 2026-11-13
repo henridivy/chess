@@ -25,6 +25,11 @@ public abstract class PieceRule {
 
     public abstract Collection<ChessMove> getPieceMoves();
 
+//    public Collection<ChessMove> getAttackMoves() {
+//        return getPieceMoves();
+//    }
+
+
     protected boolean occupiedByFriend(ChessPosition position) {
         var other = board.getPiece(position);
         if (other != null) {

@@ -1,5 +1,9 @@
 package chess;
 
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
+//import com.google.gson.JsonDeserializer;
+
 import java.util.Collection;
 import java.util.Objects;
 
@@ -107,4 +111,22 @@ public class ChessPiece {
             return s.toUpperCase();
         }
     }
+
+//    public static Gson createSerializer() {
+//        // create GsonBuilder
+//        GsonBuilder gsonBuilder = new GsonBuilder();
+//
+//        // register the type adapter; takes in a type and an Object typeAdapter
+//        // our typeAdapter is made through a lambda function and implements the JsonDeserializer interface
+//        gsonBuilder.registerTypeAdapter(ChessPiece.class, (JsonDeserializer<ChessPiece>) (el, type, ctx) -> {
+//            ChessPiece chessPiece = null;
+//            if (el.isJsonObject()) {
+//                // turn the JsonElement into a JsonObject, and get its...type? as a string?
+//                String pieceType = el.getAsJsonObject().get("type").getAsString();
+//                switch (ChessPiece.PieceType.valueOf(pieceType)) {
+//                    case PAWN -> chessPiece = ctx.deserialize(el, Pawn.class)
+//                }
+//            }
+//        });
+//    }
 }

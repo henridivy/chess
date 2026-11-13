@@ -77,6 +77,13 @@ public class PawnRule extends PieceRule {
         return pieceMoves;
     }
 
+//    @Override
+//    public Collection<ChessMove> getAttackMoves() {
+//        Collection<ChessMove> attackMoves = new ArrayList<>();
+//        var pieceMoves = getPieceMoves();
+//        attackMoves.add(pieceMoves[2]);
+//        return attackMoves;
+//    }
 
     @Override
     protected ChessPosition[] getPossibleEndings() {
